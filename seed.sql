@@ -11,19 +11,19 @@ CREATE TABLE users (
     password_hash text NOT NULL
 );
 
-CREATE TABLE apartments (
-    id serial PRIMARY KEY,
-    unit_number text NOT NULL,
-    building_name text NOT NULL,
-    rent numeric(8,2) NOT NULL,
-    UNIQUE (unit_number, building_name)
+CREATE TABLE clients (
+  id SERIAL PRIMARY KEY,
+  full_name TEXT NOT NULL,
+  phone_number TEXT UNIQUE NOT NULL,
+  date_of_birth DATE NOT NULL,
+  address TEXT
 );
 
-CREATE TABLE tenants (
-    id serial PRIMARY KEY,
-    name text NOT NULL,
-    apartment_id integer NOT NULL
-        REFERENCES apartments(id) ON DELETE CASCADE
+CREATE TABLE caretakers (
+  id SERIAL PRIMARY KEY,
+  full_name TEXT NOT NULL,
+  phone_number TEXT UNIQUE NOT NULL,
+  date_of_birth DATE NOT NULL
 );
 
 -- password is "secret123"
@@ -33,24 +33,14 @@ VALUES (
   '$2b$12$mFqYPtWtKidDOVNuKVuMC.gx6Bw470JfwG/yz0fPMy5pfBJO0qnL6'
 );
 
--- Seed: apartments
-INSERT INTO apartments (unit_number, building_name, rent)
+-- Seed: clients
+INSERT INTO clients (full_name, phone_number, date_of_birth, address)
 VALUES
-  ('101', 'Maple', 1200.00),
-  ('102', 'Maple', 950.00),
-  ('201', 'Oak', 1500.00),
-  ('101', 'Arturo', 1399.99),
-  ('102', 'Arturo', 1400.00),
-  ('102', 'Modu5', 1400.00);
+('Alice Johnson', '555-1111', '1945-08-12', '123 Main St'),
+('Mark Davis', '555-2222', '1960-03-05', '456 Elm St');
 
-
--- Seed: tenants
-INSERT INTO tenants (name, apartment_id)
+-- Seed: caretaker
+INSERT INTO caretakers (full_name, phone_number)
 VALUES
-  ('John Doe', 1),
-  ('Jane Smith', 2),
-  ('Eric Young', 1),
-  ('Sean O''Malley', 3),
-  ('Merab Divalishi', 5),
-  ('Cocoa Cat', 4);
-
+('Sarah Lee', '555-3333'),
+('David Kim', '555-4444');
