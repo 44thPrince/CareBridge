@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Apartment Manager</title>
+  <style>
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 1em;
+  }
+  th, td {
+    border: 1px solid #18161638;
+    padding: 8px;
+    text-align: left;
+  }
+  th {
+    background-color: #f2f2f2;
+  }
+
+  html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  body {
+    background: linear-gradient(135deg, #d3d3f0, #f08f4f);
+    font-family: Arial, sans-serif;
+  }
+</style>
+</head>
+<body>
+  <nav>
+    <a href="{{ url_for('list_apartments') }}">Apartments</a>
+    <a href="{{ url_for('list_tenants') }}">Tenants</a>
+
+    {% if 'username' in session %}
+      <span>Signed in as {{ session['username'] }}</span>
+      <form method="post" action="{{ url_for('signout') }}" style="display:inline;">
+        <button type="submit">Sign Out</button>
+      </form>
+    {% else %}
+      <a href="{{ url_for('signin') }}">Sign In</a>
+    {% endif %}
+  </nav>
+  <!-- Flash messages -->
+    {% for message in get_flashed_messages() %}
+      <p class="message">{{ message }}</p>
+    {% endfor %}
+
+  <!-- Page content -->
+  {% block content %}
+  {% endblock %}
+</body>
+</html>

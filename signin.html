@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+  <h1>Sign In</h1>
+
+  <form method="post" action="{{ url_for('signin') }}">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username" required><br><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" required><br><br>
+    <input type="hidden" name="next" value="{{ request.args.get('next', '') }}">
+    
+    <button type="submit">Sign In</button>
+  </form>
+
+{% endblock %}
