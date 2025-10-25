@@ -268,7 +268,12 @@ source venv/bin/activate
 ### Step 3: Install Dependencies
 
 ```bash
-pip install flask psycopg2-binary bcrypt python-dotenv
+pip install -r requirements.txt
+```
+
+Or install individual packages:
+```bash
+pip install Flask psycopg2-binary bcrypt python-dotenv google-generativeai
 ```
 
 ### Step 4: Set Up Database
