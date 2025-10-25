@@ -307,3 +307,164 @@ CareBridge/
 - All AI prompts are designed to return structured JSON responses
 - The system is designed to be easily extensible for additional AI features
 - Error handling ensures the application remains functional even if AI services fail
+
+## 🚀 How to Run
+
+### Prerequisites
+
+Before running CareBridge, make sure you have the following installed on your system:
+
+- **Python 3.8+** - [Download Python](https://www.python.org/downloads/)
+- **PostgreSQL** - [Download PostgreSQL](https://www.postgresql.org/download/)
+- **Git** - [Download Git](https://git-scm.com/downloads)
+
+### Step 1: Clone the Repository
+
+```bash
+git clone <repository-url>
+cd CareBridge
+```
+
+### Step 2: Set Up Virtual Environment
+
+```bash
+# Create virtual environment
+python -m venv venv
+
+# Activate virtual environment
+# On Windows:
+venv\Scripts\activate
+# On macOS/Linux:
+source venv/bin/activate
+```
+
+### Step 3: Install Dependencies
+
+```bash
+pip install flask psycopg2-binary bcrypt python-dotenv
+```
+
+### Step 4: Set Up Database
+
+1. **Start PostgreSQL service** (if not already running)
+
+2. **Create the database**:
+   ```bash
+   createdb carebridgedb
+   ```
+
+3. **Run the database schema and seed data**:
+   ```bash
+   psql -d carebridgedb -f seed.sql
+   ```
+
+### Step 5: Configure Environment (Optional)
+
+Create a `.env` file in the project root for API keys (optional for basic functionality):
+
+```bash
+# .env file
+GEMINI_API_KEY=your_google_gemini_api_key_here
+```
+
+### Step 6: Run the Application
+
+```bash
+# Make sure you're in the project directory and virtual environment is activated
+python app.py
+```
+
+### Step 7: Access the Application
+
+Open your web browser and navigate to:
+- **Main Application**: `http://localhost:5004`
+- **Home Page**: `http://localhost:5004/`
+- **Sign In**: `http://localhost:5004/signin`
+
+### Demo Credentials
+
+You can use these demo accounts to test the application:
+
+**Client Account:**
+- Username: `client1`
+- Password: `demo123`
+
+**Caretaker Account:**
+- Username: `caretaker1`
+- Password: `demo123`
+
+### Troubleshooting
+
+**Port Already in Use:**
+```bash
+# If port 5004 is in use, kill existing processes
+pkill -f "python app.py"
+# Or change the port in app.py
+```
+
+**Database Connection Issues:**
+```bash
+# Check if PostgreSQL is running
+brew services start postgresql  # macOS
+# or
+sudo service postgresql start   # Linux
+```
+
+**Module Not Found Errors:**
+```bash
+# Make sure virtual environment is activated
+source venv/bin/activate  # macOS/Linux
+venv\Scripts\activate     # Windows
+
+# Reinstall dependencies
+pip install -r requirements.txt
+```
+
+**Database Permission Issues:**
+```bash
+# Create user with proper permissions
+sudo -u postgres createuser --interactive
+sudo -u postgres createdb carebridgedb
+```
+
+### Project Structure
+
+```
+CareBridge/
+├── app.py                 # Main Flask application
+├── database.py           # Database connection and operations
+├── utils.py              # Utility functions
+├── seed.sql              # Database schema and sample data
+├── templates/            # HTML templates
+│   ├── base.html
+│   ├── carebridge_home.html
+│   ├── dashboard.html
+│   ├── edit_profile.html
+│   ├── signin.html
+│   ├── client_form.html
+│   └── caretaker_form.html
+├── static/               # Static assets (CSS, images)
+├── venv/                 # Virtual environment
+└── README.md
+```
+
+### Features Available
+
+- ✅ User authentication (login/logout)
+- ✅ Client and caretaker registration
+- ✅ Profile management and editing
+- ✅ Dashboard with available caretakers
+- ✅ Responsive design
+- ✅ Database integration
+- ✅ Session management
+
+### Next Steps
+
+Once the application is running, you can:
+1. Register as a client or caretaker
+2. Edit your profile information
+3. Browse available caretakers
+4. Test the authentication system
+5. Explore the responsive design
+
+For development and customization, refer to the individual component documentation in the codebase.
