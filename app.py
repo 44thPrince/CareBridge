@@ -19,10 +19,18 @@ def show_client_form():
         phone_number = request.form.get("phone_number")
         date_of_birth = request.form.get("date_of_birth")
         address = request.form.get("address")
+        emergency_contact_name = request.form.get("emergency_contact_name")
+        emergency_contact_phone = request.form.get("emergency_contact_phone")
+        medical_conditions = request.form.get("medical_conditions")
+        special_instructions = request.form.get("special_instructions")
 
         try:
-            client_id = db.insert_client(full_name, phone_number, date_of_birth, address)
-            flash(f"Client registered successfully. ID: {client_id}")
+            client_id = db.insert_client(
+                full_name, phone_number, date_of_birth, address,
+                emergency_contact_name, emergency_contact_phone,
+                medical_conditions, special_instructions
+            )
+            flash(f"Client registered successfully! Welcome to CareBridge, {full_name}!")
             return redirect(url_for("home"))
         except Exception as e:
             flash(f"Error saving client: {e}")
@@ -34,13 +42,38 @@ def show_client_form():
 @app.route("/caretaker/register", methods=["GET", "POST"])
 def show_caretaker_form():
     if request.method == "POST":
+        # Get all form fields
         full_name = request.form.get("full_name")
         phone_number = request.form.get("phone_number")
+        email = request.form.get("email")
         date_of_birth = request.form.get("date_of_birth")
+        address = request.form.get("address")
+        city = request.form.get("city")
+        state = request.form.get("state")
+        zip_code = request.form.get("zip_code")
+        bio = request.form.get("bio")
+        years_experience = request.form.get("years_experience", 0)
+        hourly_rate = request.form.get("hourly_rate")
+        availability = request.form.get("availability")
+        certifications = request.form.get("certifications")
+        languages = request.form.get("languages")
+        
+        # Get ADL services (checkboxes)
+        adl_services = request.form.getlist("adl_services")
 
         try:
-            caretaker_id = db.insert_caretaker(full_name, phone_number, date_of_birth)
-            flash(f"Caretaker registered successfully. ID: {caretaker_id}")
+            # Insert caretaker
+            caretaker_id = db.insert_caretaker(
+                full_name, phone_number, date_of_birth, email, address,
+                city, state, zip_code, bio, years_experience, hourly_rate,
+                availability, certifications, languages
+            )
+            
+            # Add ADL services
+            for service in adl_services:
+                db.add_caretaker_adl(caretaker_id, service)
+            
+            flash(f"Caretaker registered successfully! Welcome to CareBridge, {full_name}! Your profile is now live.")
             return redirect(url_for("home"))
         except Exception as e:
             flash(f"Error saving caretaker: {e}")
