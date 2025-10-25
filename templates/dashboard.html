@@ -43,37 +43,10 @@
     </div>
     {% endif %}
 
-    <!-- Available Caretakers -->
-    <div style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-      <h3 style="color: #2c3e50; margin-top: 0;">Available Caretakers</h3>
-      <p style="color: #7f8c8d; font-size: 0.9rem;">{{ caretakers|length }} caretakers ready to help</p>
-      
-      {% if caretakers %}
-        <div style="max-height: 300px; overflow-y: auto;">
-          {% for caretaker in caretakers[:3] %}
-            <div style="border: 1px solid #e0e0e0; padding: 15px; margin: 10px 0; border-radius: 8px; background: #f9f9f9;">
-              <h4 style="margin: 0 0 5px 0; color: #2c3e50;">{{ caretaker.full_name }}</h4>
-              <p style="margin: 5px 0; color: #7f8c8d; font-size: 0.9rem;">
-                {{ caretaker.years_experience }} years experience • ${{ "%.2f"|format(caretaker.hourly_rate) }}/hour
-              </p>
-              <p style="margin: 5px 0; color: #5a6c7d; font-size: 0.85rem;">
-                {{ caretaker.bio[:100] }}{% if caretaker.bio|length > 100 %}...{% endif %}
-              </p>
-            </div>
-          {% endfor %}
-        </div>
-        {% if caretakers|length > 3 %}
-          <p style="text-align: center; margin-top: 10px;">
-            <a href="#" style="color: #3498db;">View all {{ caretakers|length }} caretakers →</a>
-          </p>
-        {% endif %}
-      {% else %}
-        <p style="color: #7f8c8d; font-style: italic;">No caretakers available at the moment.</p>
-      {% endif %}
-    </div>
 
 
   </div>
 
 
 {% endblock %}
+

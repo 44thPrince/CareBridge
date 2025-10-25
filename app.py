@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from database import DatabasePersistence, _database_connect
 from psycopg2.extras import DictCursor
 import bcrypt
-from ai_matching import ai_service
+from ai_matching import get_ai_service
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
@@ -89,17 +89,16 @@ def dashboard():
         print(f"Error fetching user profile: {e}")
         pass
     
-    # Get user-specific data based on role
-    caretakers = db.get_all_caretakers()
-    
     # Get AI matches for clients
     ai_matches = None
     if user_profile and user_profile.get('type') == 'client':
         try:
             # Analyze client needs
+            ai_service = get_ai_service()
             client_needs = ai_service.analyze_client_needs(user_profile)
             
             # Get caretaker ADL services for matching
+            caretakers = db.get_all_caretakers()
             caretakers_with_adls = []
             for caretaker in caretakers:
                 # Convert DictRow to dict to allow modification
@@ -122,7 +121,6 @@ def dashboard():
     return render_template("dashboard.html", 
                          username=username, 
                          user_profile=user_profile,
-                         caretakers=caretakers,
                          ai_matches=ai_matches)
 
 @app.route("/profile/edit", methods=["GET", "POST"])
@@ -258,6 +256,7 @@ def ai_matches():
     # Get AI matches
     try:
         # Analyze client needs
+        ai_service = get_ai_service()
         client_needs = ai_service.analyze_client_needs(user_profile)
         
         # Get all caretakers with ADL services

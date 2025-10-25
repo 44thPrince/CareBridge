@@ -72,7 +72,10 @@ INSERT INTO users (username, password_hash)
 VALUES 
   ('admin', '$2b$12$mFqYPtWtKidDOVNuKVuMC.gx6Bw470JfwG/yz0fPMy5pfBJO0qnL6'),
   ('client1', '$2b$12$6.ZOuKjZyEziTg8J35o8KejHgMNLlFiVEn2gA1ZM3d5rD9Vj8divG'),
-  ('caretaker1', '$2b$12$6.ZOuKjZyEziTg8J35o8KejHgMNLlFiVEn2gA1ZM3d5rD9Vj8divG');
+  ('caretaker1', '$2b$12$6.ZOuKjZyEziTg8J35o8KejHgMNLlFiVEn2gA1ZM3d5rD9Vj8divG'),
+  ('caretaker2', '$2b$12$6.ZOuKjZyEziTg8J35o8KejHgMNLlFiVEn2gA1ZM3d5rD9Vj8divG'),
+  ('caretaker3', '$2b$12$6.ZOuKjZyEziTg8J35o8KejHgMNLlFiVEn2gA1ZM3d5rD9Vj8divG'),
+  ('caretaker4', '$2b$12$6.ZOuKjZyEziTg8J35o8KejHgMNLlFiVEn2gA1ZM3d5rD9Vj8divG');
 
 -- Seed ADL Service Types
 INSERT INTO adl_service_types (category, service_name, description, display_order) VALUES
@@ -115,7 +118,22 @@ VALUES
  5, 22.00, 'Flexible availability', 'CPR, Physical Therapy Aide', 'English, Korean', 'verified'),
 ('Maria Rodriguez', '555-5555', 'maria.rodriguez@carebridge.com', '1990-03-10', '654 Maple Dr', 'Orlando', 'FL', '32803',
  'Dedicated caregiver with a heart for serving veterans and seniors. Bilingual in English and Spanish with background in meal planning.',
- 4, 20.00, 'Monday-Saturday, 8am-6pm', 'First Aid, Food Safety', 'English, Spanish', 'verified');
+ 4, 20.00, 'Monday-Saturday, 8am-6pm', 'First Aid, Food Safety', 'English, Spanish', 'verified'),
+('James Wilson', '555-6666', 'james.wilson@carebridge.com', '1982-11-30', '987 Cedar Blvd', 'Orlando', 'FL', '32806',
+ 'Military veteran with 10 years of experience caring for elderly and disabled individuals. Expert in emergency response and medical equipment management.',
+ 10, 28.00, '24/7 availability including weekends', 'CPR, EMT, Medical Equipment Specialist', 'English', 'verified'),
+('Emily Chen', '555-7777', 'emily.chen@carebridge.com', '1992-07-18', '456 Birch Ln', 'Orlando', 'FL', '32808',
+ 'Registered nurse with specialized training in Alzheimer''s and dementia care. Patient, kind, and experienced with complex medical needs.',
+ 6, 30.00, 'Monday-Friday, 8am-4pm', 'RN License, Alzheimer''s Care Certified', 'English, Mandarin', 'verified'),
+('Michael Thompson', '555-8888', 'michael.thompson@carebridge.com', '1987-04-25', '321 Spruce Way', 'Orlando', 'FL', '32801',
+ 'Former physical therapist assistant now providing in-home care. Specializes in mobility assistance and rehabilitation support.',
+ 7, 26.00, 'Flexible schedule, available evenings', 'CPT, Mobility Specialist', 'English', 'verified'),
+('Jennifer Martinez', '555-9999', 'jennifer.martinez@carebridge.com', '1995-01-12', '789 Willow Dr', 'Orlando', 'FL', '32805',
+ 'Energetic and caring caregiver with expertise in companionship and technology assistance. Great with helping seniors stay connected.',
+ 3, 18.00, 'Monday-Sunday, flexible hours', 'Technology Assistance Certified', 'English, Spanish, French', 'verified'),
+('Robert Anderson', '555-1010', 'robert.anderson@carebridge.com', '1980-06-08', '654 Ash St', 'Orlando', 'FL', '32803',
+ 'Compassionate caregiver with extensive experience in end-of-life care and emotional support. Background in psychology.',
+ 12, 32.00, 'Weekdays preferred, flexible hours', 'Grief Counseling, Psychology Degree', 'English', 'verified');
 
 -- Seed: Caretaker ADL Services
 -- Sarah Lee's services
@@ -141,3 +159,43 @@ INSERT INTO caretaker_adls (caretaker_id, service_type, is_available, notes) VAL
 (3, 'Laundry', TRUE, NULL),
 (3, 'Companionship', TRUE, 'Bilingual, great with communication'),
 (3, 'Housekeeping', TRUE, 'Thorough and detail-oriented');
+
+-- James Wilson's services
+INSERT INTO caretaker_adls (caretaker_id, service_type, is_available, notes) VALUES
+(4, 'Emergency Response', TRUE, '24/7 on-call availability'),
+(4, 'Medical Equipment Management', TRUE, 'Trained on all major devices'),
+(4, 'Medication Management', TRUE, 'Veteran with extensive experience'),
+(4, 'Transportation', TRUE, 'Commercial driver license'),
+(4, 'Mobility & Transfers', TRUE, 'Strong and dependable');
+
+-- Emily Chen's services
+INSERT INTO caretaker_adls (caretaker_id, service_type, is_available, notes) VALUES
+(5, 'Dementia & Alzheimer Care', TRUE, 'Specialized RN with 5 years dementia care'),
+(5, 'Medication Management', TRUE, 'RN supervision of complex medications'),
+(5, 'Bathing & Personal Hygiene', TRUE, 'Expert with dementia patients'),
+(5, 'Medical Equipment Management', TRUE, 'Hospice equipment experience'),
+(5, 'Companionship', TRUE, 'Emotionally supportive and patient');
+
+-- Michael Thompson's services
+INSERT INTO caretaker_adls (caretaker_id, service_type, is_available, notes) VALUES
+(6, 'Mobility & Transfers', TRUE, 'Physical therapy background'),
+(6, 'Physical Therapy Assistance', TRUE, 'Certified PT aide'),
+(6, 'Transportation', TRUE, NULL),
+(6, 'Dressing Assistance', TRUE, NULL),
+(6, 'Toileting Assistance', TRUE, NULL);
+
+-- Jennifer Martinez's services
+INSERT INTO caretaker_adls (caretaker_id, service_type, is_available, notes) VALUES
+(7, 'Companionship', TRUE, 'Energetic and engaging personality'),
+(7, 'Technology Assistance', TRUE, 'Expert in smartphones, tablets, computers'),
+(7, 'Shopping & Errands', TRUE, NULL),
+(7, 'Transportation', TRUE, NULL),
+(7, 'Meal Planning & Preparation', TRUE, 'Healthy and creative meals');
+
+-- Robert Anderson's services
+INSERT INTO caretaker_adls (caretaker_id, service_type, is_available, notes) VALUES
+(8, 'Companionship', TRUE, 'Psychology background, excellent emotional support'),
+(8, 'Medication Management', TRUE, 'Experienced with mental health medications'),
+(8, 'Meal Planning & Preparation', TRUE, NULL),
+(8, 'Transportation', TRUE, NULL),
+(8, 'Emergency Response', TRUE, 'Crisis intervention trained');

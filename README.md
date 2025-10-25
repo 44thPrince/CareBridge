@@ -242,7 +242,7 @@ def ai_matches():
 Before running CareBridge, make sure you have the following installed on your system:
 
 - **Python 3.8+** - [Download Python](https://www.python.org/downloads/)
-- **PostgreSQL** - [Download PostgreSQL](https://www.postgresql.org/download/)
+- **PostgreSQL 14.9** - [Download PostgreSQL](https://www.postgresql.org/download/)
 - **Git** - [Download Git](https://git-scm.com/downloads)
 
 ### Step 1: Clone the Repository

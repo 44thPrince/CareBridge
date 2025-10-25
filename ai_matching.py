@@ -21,15 +21,24 @@ class AIMatchingService:
     
     def __init__(self):
         """Initialize the AI matching service"""
+        self._initialize_api()
+    
+    def _initialize_api(self):
+        """Initialize or reinitialize the API connection"""
+        # Reload environment variables
+        load_dotenv()
         self.api_key = os.getenv('GEMINI_API_KEY', '')
         self.model_name = os.getenv('GEMINI_MODEL', 'gemini-2.0-flash')
         
         if self.api_key and GEMINI_AVAILABLE:
             try:
+                # Clear any existing configuration to avoid caching issues
+                genai.configure(api_key=None)
+                # Configure with fresh key
                 genai.configure(api_key=self.api_key)
                 self.model = genai.GenerativeModel(self.model_name)
                 self.ai_enabled = True
-                print("✅ AI matching service initialized with Gemini API")
+                print(f"✅ AI matching service initialized with Gemini API (Key: {self.api_key[:20]}...)")
             except Exception as e:
                 print(f"⚠️ Error initializing Gemini API: {e}")
                 self.model = None
@@ -46,6 +55,9 @@ class AIMatchingService:
         """
         Analyze client medical conditions and special instructions to determine care needs
         """
+        # Reinitialize API to ensure we have the latest key
+        self._initialize_api()
+        
         if not self.ai_enabled:
             return self._fallback_client_analysis(client_data)
         
@@ -87,6 +99,11 @@ class AIMatchingService:
                 response_text = response_text[:-3]
             response_text = response_text.strip()
             
+            # Fix common JSON issues
+            import re
+            # Remove trailing commas before closing brackets/braces
+            response_text = re.sub(r',(\s*[}\]])', r'\1', response_text)
+            
             result = json.loads(response_text)
             
             print(f"🧠 AI analyzed client needs: {result.get('primary_needs', [])}")
@@ -100,6 +117,9 @@ class AIMatchingService:
         """
         Match client needs with available caretakers using AI
         """
+        # Reinitialize API to ensure we have the latest key
+        self._initialize_api()
+        
         if not self.ai_enabled:
             return self._fallback_caretaker_matching(client_needs, caretakers)
         
@@ -169,6 +189,11 @@ class AIMatchingService:
             if response_text.endswith('```'):
                 response_text = response_text[:-3]
             response_text = response_text.strip()
+            
+            # Fix common JSON issues
+            import re
+            # Remove trailing commas before closing brackets/braces
+            response_text = re.sub(r',(\s*[}\]])', r'\1', response_text)
             
             result = json.loads(response_text)
             
@@ -296,5 +321,7 @@ class AIMatchingService:
         print(f"🔄 Fallback matching generated {len(matches)} matches")
         return matches
 
-# Create a global instance
-ai_service = AIMatchingService()
+# Create a function to get a fresh AI service instance
+def get_ai_service():
+    """Get a fresh AI service instance to avoid caching issues"""
+    return AIMatchingService()

@@ -70,6 +70,13 @@ class DatabasePersistence:
                 cur.execute("SELECT * FROM caretakers ORDER BY created_at DESC")
                 return cur.fetchall()
 
+    def get_all_clients(self):
+        """Get all clients with their details."""
+        with _database_connect() as conn:
+            with conn.cursor(cursor_factory=DictCursor) as cur:
+                cur.execute("SELECT * FROM clients ORDER BY created_at DESC")
+                return cur.fetchall()
+
     def get_caretaker_by_id(self, caretaker_id):
         """Get a specific caretaker by ID."""
         with _database_connect() as conn:
