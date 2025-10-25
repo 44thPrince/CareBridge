@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from database import DatabasePersistence, _database_connect
 from psycopg2.extras import DictCursor
 import bcrypt
+from ai_matching import ai_service
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
@@ -89,13 +90,40 @@ def dashboard():
         pass
     
     # Get user-specific data based on role
-    # For now, show all caretakers as demo data
     caretakers = db.get_all_caretakers()
+    
+    # Get AI matches for clients
+    ai_matches = None
+    if user_profile and user_profile.get('type') == 'client':
+        try:
+            # Analyze client needs
+            client_needs = ai_service.analyze_client_needs(user_profile)
+            
+            # Get caretaker ADL services for matching
+            caretakers_with_adls = []
+            for caretaker in caretakers:
+                # Convert DictRow to dict to allow modification
+                caretaker_dict = dict(caretaker)
+                try:
+                    caretaker_adls = db.get_caretaker_adls(caretaker_dict['id'])
+                    caretaker_dict['adl_services'] = [adl['service_type'] for adl in caretaker_adls if adl.get('is_available', True)]
+                except Exception as e:
+                    print(f"Error getting ADL services for caretaker {caretaker_dict.get('id')}: {e}")
+                    caretaker_dict['adl_services'] = []
+                caretakers_with_adls.append(caretaker_dict)
+            
+            # Get AI matches
+            ai_matches = ai_service.match_caretakers(client_needs, caretakers_with_adls)
+            
+        except Exception as e:
+            print(f"Error in AI matching: {e}")
+            ai_matches = None
     
     return render_template("dashboard.html", 
                          username=username, 
                          user_profile=user_profile,
-                         caretakers=caretakers)
+                         caretakers=caretakers,
+                         ai_matches=ai_matches)
 
 @app.route("/profile/edit", methods=["GET", "POST"])
 @login_required
@@ -201,6 +229,65 @@ def edit_profile():
                          user_profile=user_profile, 
                          profile_type=profile_type,
                          username=username)
+
+@app.route("/ai-matches")
+@login_required
+def ai_matches():
+    """AI-powered caretaker matching results page"""
+    user_id = session.get('user_id')
+    username = session.get('username', 'User')
+    
+    # Get user profile
+    user_profile = None
+    try:
+        with _database_connect() as conn:
+            with conn.cursor(cursor_factory=DictCursor) as cur:
+                cur.execute("SELECT * FROM clients WHERE user_id = %s", (user_id,))
+                user_profile = cur.fetchone()
+                if user_profile:
+                    user_profile = dict(user_profile)  # Convert DictRow to dict
+                    user_profile['type'] = 'client'
+    except Exception as e:
+        print(f"Error fetching client profile: {e}")
+        pass
+    
+    if not user_profile or user_profile.get('type') != 'client':
+        flash("AI matching is only available for clients.")
+        return redirect(url_for('dashboard'))
+    
+    # Get AI matches
+    try:
+        # Analyze client needs
+        client_needs = ai_service.analyze_client_needs(user_profile)
+        
+        # Get all caretakers with ADL services
+        caretakers = db.get_all_caretakers()
+        caretakers_with_adls = []
+        for caretaker in caretakers:
+            # Convert DictRow to dict to allow modification
+            caretaker_dict = dict(caretaker)
+            try:
+                caretaker_adls = db.get_caretaker_adls(caretaker_dict['id'])
+                caretaker_dict['adl_services'] = [adl['service_type'] for adl in caretaker_adls if adl.get('is_available', True)]
+            except Exception as e:
+                print(f"Error getting ADL services for caretaker {caretaker_dict.get('id')}: {e}")
+                caretaker_dict['adl_services'] = []
+            caretakers_with_adls.append(caretaker_dict)
+        
+        # Get AI matches
+        ai_matches = ai_service.match_caretakers(client_needs, caretakers_with_adls)
+        
+    except Exception as e:
+        print(f"Error in AI matching: {e}")
+        ai_matches = None
+        client_needs = None
+        flash("Error generating AI matches. Please try again later.")
+    
+    return render_template("ai_matches.html", 
+                         username=username,
+                         user_profile=user_profile,
+                         client_needs=client_needs,
+                         ai_matches=ai_matches)
 
 @app.route("/client/register", methods=["GET", "POST"])
 def show_client_form():
