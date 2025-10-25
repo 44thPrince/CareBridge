@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Welcome to CareBridge</h1>
+  <p>Connecting compassionate caregivers with those who need support — elderly, disabled, veterans, and people with chronic conditions. Your trusted platform for quality care, think Uber but for healthcare services.</p>
+  
+  <div class="cta-buttons">
+    <a href="{{ url_for('show_client_form') }}" class="cta-button">I Need Care</a>
+    <a href="{{ url_for('show_caretaker_form') }}" class="cta-button secondary">I Want to Care</a>
+  </div>
+{% endblock %}
