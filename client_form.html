@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Register a New Client</h2>
+<form method="POST">
+  <label>Full Name:</label><br>
+  <input type="text" name="full_name" required><br><br>
+
+  <label>Phone Number:</label><br>
+  <input type="text" name="phone_number" required><br><br>
+
+  <label>Date of Birth:</label><br>
+  <input type="date" name="date_of_birth" required><br><br>
+
+  <label>Address:</label><br>
+  <input type="text" name="address"><br><br>
+
+  <button type="submit">Save Client</button>
+</form>
+{% endblock %}

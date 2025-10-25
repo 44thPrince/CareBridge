@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Welcome to CareBridge</h1>
+  <p>Connecting caregivers with those in need — elderly, disabled, or veterans.</p>
+  <p><a href="{{ url_for('show_client_form') }}">Register as a Client</a></p>
+  <p><a href="{{ url_for('show_caretaker_form') }}">Register as a Caregiver</a></p>
+{% endblock %}
