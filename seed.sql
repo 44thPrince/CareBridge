@@ -17,14 +17,14 @@ CREATE TABLE clients (
   phone_number TEXT UNIQUE NOT NULL,
   date_of_birth DATE NOT NULL,
   address TEXT,
-  caretaker_id INT REFERENCES caretakers(id) ON DELETE SET NULL
 );
 
 CREATE TABLE caretakers (
   id SERIAL PRIMARY KEY,
   full_name TEXT NOT NULL,
   phone_number TEXT UNIQUE NOT NULL,
-  date_of_birth DATE NOT NULL
+  date_of_birth DATE NOT NULL,
+  client_id INT REFERENCES clients(id) ON DELETE SET NULL
 );
 
 -- password is "secret123"
