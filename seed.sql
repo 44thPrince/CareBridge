@@ -2,7 +2,7 @@
 DROP DATABASE IF EXISTS carebridgedb;
 CREATE DATABASE carebridgedb;
 
-\c apt_manager
+\c carebridgedb
 
 -- Tables
 CREATE TABLE users (
