@@ -65,12 +65,14 @@ CREATE TABLE adl_service_types (
   display_order INT
 );
 
--- password is "secret123"
+-- Demo users with bcrypt hashed passwords
+-- password is "secret123" for admin
+-- password is "demo123" for demo users
 INSERT INTO users (username, password_hash)
-VALUES (
-  'admin',
-  '$2b$12$mFqYPtWtKidDOVNuKVuMC.gx6Bw470JfwG/yz0fPMy5pfBJO0qnL6'
-);
+VALUES 
+  ('admin', '$2b$12$mFqYPtWtKidDOVNuKVuMC.gx6Bw470JfwG/yz0fPMy5pfBJO0qnL6'),
+  ('client1', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/8Qz8K2'),
+  ('caretaker1', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/8Qz8K2');
 
 -- Seed ADL Service Types
 INSERT INTO adl_service_types (category, service_name, description, display_order) VALUES

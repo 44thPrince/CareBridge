@@ -1,15 +1,76 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 from database import DatabasePersistence
+import bcrypt
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
 db = DatabasePersistence()
+
+# ---------------------- Authentication Helpers ----------------------
+
+def login_required(f):
+    """Decorator to require login for protected routes"""
+    from functools import wraps
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            return redirect(url_for('signin', next=request.url))
+        return f(*args, **kwargs)
+    return decorated_function
+
+def hash_password(password):
+    """Hash a password using bcrypt"""
+    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
+
+def check_password(password, hashed):
+    """Check if password matches hash"""
+    return bcrypt.checkpw(password.encode('utf-8'), hashed.encode('utf-8'))
 
 # ---------------------- Web Pages ----------------------
 
 @app.route("/")
 def home():
     return render_template("carebridge_home.html")
+
+@app.route("/signin", methods=["GET", "POST"])
+def signin():
+    if request.method == "POST":
+        username = request.form.get("username")
+        password = request.form.get("password")
+        next_page = request.form.get("next") or url_for('dashboard')
+        
+        # Check if user exists
+        user = db.find_user_by_username(username)
+        if user and check_password(password, user['password_hash']):
+            session['user_id'] = user['id']
+            session['username'] = user['username']
+            flash(f"Welcome back, {username}!")
+            return redirect(next_page)
+        else:
+            flash("Invalid username or password. Please try again.")
+            return redirect(url_for('signin'))
+    
+    return render_template("signin.html")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    flash("You have been logged out successfully.")
+    return redirect(url_for('home'))
+
+@app.route("/dashboard")
+@login_required
+def dashboard():
+    """User dashboard after login"""
+    username = session.get('username', 'User')
+    
+    # Get user-specific data based on role
+    # For now, show all caretakers as demo data
+    caretakers = db.get_all_caretakers()
+    
+    return render_template("dashboard.html", 
+                         username=username, 
+                         caretakers=caretakers)
 
 
 @app.route("/client/register", methods=["GET", "POST"])
@@ -116,4 +177,4 @@ def api_create_caretaker():
 # ---------------------- Run ----------------------
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5003)
+    app.run(debug=True, port=5004)
