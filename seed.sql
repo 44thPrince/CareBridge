@@ -16,7 +16,8 @@ CREATE TABLE clients (
   full_name TEXT NOT NULL,
   phone_number TEXT UNIQUE NOT NULL,
   date_of_birth DATE NOT NULL,
-  address TEXT
+  address TEXT,
+  caretaker_id INT REFERENCES caretakers(id) ON DELETE SET NULL
 );
 
 CREATE TABLE caretakers (
