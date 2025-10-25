@@ -2,7 +2,7 @@
 
 {% block content %}
   <h1>Sign In to CareBridge</h1>
-  <p>Access your caregiver or client dashboard</p>
+  <p>Access your caretaker or client dashboard</p>
 
   <form method="post" action="{{ url_for('signin') }}">
     <h3>Account Information</h3>
@@ -18,11 +18,5 @@
     <button type="submit" class="cta-button">Sign In</button>
   </form>
 
-  <div style="margin-top: 30px; padding: 20px; background: #f8f9fa; border-radius: 8px; text-align: left;">
-    <h3>Demo Credentials</h3>
-    <p><strong>Admin:</strong> username: <code>admin</code> | password: <code>secret123</code></p>
-    <p><strong>Client:</strong> username: <code>client1</code> | password: <code>demo123</code></p>
-    <p><strong>Caretaker:</strong> username: <code>caretaker1</code> | password: <code>demo123</code></p>
-  </div>
 
 {% endblock %}

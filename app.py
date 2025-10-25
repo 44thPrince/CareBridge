@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
-from database import DatabasePersistence
+from database import DatabasePersistence, _database_connect
+from psycopg2.extras import DictCursor
 import bcrypt
 
 app = Flask(__name__)
@@ -63,6 +64,29 @@ def logout():
 def dashboard():
     """User dashboard after login"""
     username = session.get('username', 'User')
+    user_id = session.get('user_id')
+    
+    # Get user profile
+    user_profile = None
+    try:
+        with _database_connect() as conn:
+            with conn.cursor(cursor_factory=DictCursor) as cur:
+                # Try to find user as client first
+                cur.execute("SELECT * FROM clients WHERE user_id = %s", (user_id,))
+                user_profile = cur.fetchone()
+                if user_profile:
+                    user_profile = dict(user_profile)  # Convert DictRow to dict
+                    user_profile['type'] = 'client'
+                else:
+                    # If not found as client, try as caretaker
+                    cur.execute("SELECT * FROM caretakers WHERE user_id = %s", (user_id,))
+                    user_profile = cur.fetchone()
+                    if user_profile:
+                        user_profile = dict(user_profile)  # Convert DictRow to dict
+                        user_profile['type'] = 'caretaker'
+    except Exception as e:
+        print(f"Error fetching user profile: {e}")
+        pass
     
     # Get user-specific data based on role
     # For now, show all caretakers as demo data
@@ -70,8 +94,113 @@ def dashboard():
     
     return render_template("dashboard.html", 
                          username=username, 
+                         user_profile=user_profile,
                          caretakers=caretakers)
 
+@app.route("/profile/edit", methods=["GET", "POST"])
+@login_required
+def edit_profile():
+    """Edit user profile"""
+    user_id = session.get('user_id')
+    username = session.get('username', 'User')
+    
+    # Get current user profile
+    user_profile = None
+    profile_type = None
+    
+    # Try to find user as client first
+    try:
+        with _database_connect() as conn:
+            with conn.cursor(cursor_factory=DictCursor) as cur:
+                cur.execute("SELECT * FROM clients WHERE user_id = %s", (user_id,))
+                user_profile = cur.fetchone()
+                if user_profile:
+                    user_profile = dict(user_profile)  # Convert DictRow to dict
+                    profile_type = 'client'
+    except:
+        pass
+    
+    # If not found as client, try as caretaker
+    if not user_profile:
+        try:
+            with _database_connect() as conn:
+                with conn.cursor(cursor_factory=DictCursor) as cur:
+                    cur.execute("SELECT * FROM caretakers WHERE user_id = %s", (user_id,))
+                    user_profile = cur.fetchone()
+                    if user_profile:
+                        user_profile = dict(user_profile)  # Convert DictRow to dict
+                        profile_type = 'caretaker'
+        except:
+            pass
+    
+    if request.method == "POST":
+        # Update profile based on type
+        if profile_type == 'client':
+            full_name = request.form.get("full_name")
+            phone_number = request.form.get("phone_number")
+            address = request.form.get("address")
+            emergency_contact_name = request.form.get("emergency_contact_name")
+            emergency_contact_phone = request.form.get("emergency_contact_phone")
+            medical_conditions = request.form.get("medical_conditions")
+            special_instructions = request.form.get("special_instructions")
+            
+            try:
+                with _database_connect() as conn:
+                    with conn.cursor() as cur:
+                        # Update the client profile
+                        cur.execute("""
+                            UPDATE clients SET 
+                                full_name = %s, phone_number = %s, address = %s,
+                                emergency_contact_name = %s, emergency_contact_phone = %s,
+                                medical_conditions = %s, special_instructions = %s
+                            WHERE id = %s
+                        """, (full_name, phone_number, address, emergency_contact_name, 
+                              emergency_contact_phone, medical_conditions, special_instructions, user_profile['id']))
+                        
+                flash("Profile updated successfully!")
+                return redirect(url_for('dashboard'))
+            except Exception as e:
+                flash(f"Error updating profile: {e}")
+                
+        elif profile_type == 'caretaker':
+            full_name = request.form.get("full_name")
+            phone_number = request.form.get("phone_number")
+            email = request.form.get("email")
+            address = request.form.get("address")
+            city = request.form.get("city")
+            state = request.form.get("state")
+            zip_code = request.form.get("zip_code")
+            bio = request.form.get("bio")
+            years_experience = request.form.get("years_experience", 0)
+            hourly_rate = request.form.get("hourly_rate")
+            availability = request.form.get("availability")
+            certifications = request.form.get("certifications")
+            languages = request.form.get("languages")
+            
+            try:
+                with _database_connect() as conn:
+                    with conn.cursor() as cur:
+                        # Update the caretaker profile
+                        cur.execute("""
+                            UPDATE caretakers SET 
+                                full_name = %s, phone_number = %s, email = %s, address = %s,
+                                city = %s, state = %s, zip_code = %s, bio = %s,
+                                years_experience = %s, hourly_rate = %s, availability = %s,
+                                certifications = %s, languages = %s
+                            WHERE id = %s
+                        """, (full_name, phone_number, email, address, city, state, zip_code,
+                              bio, years_experience, hourly_rate, availability, certifications, 
+                              languages, user_profile['id']))
+                        
+                flash("Profile updated successfully!")
+                return redirect(url_for('dashboard'))
+            except Exception as e:
+                flash(f"Error updating profile: {e}")
+    
+    return render_template("edit_profile.html", 
+                         user_profile=user_profile, 
+                         profile_type=profile_type,
+                         username=username)
 
 @app.route("/client/register", methods=["GET", "POST"])
 def show_client_form():

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Edit Your Profile</h1>
+  <p>Update your information to help us provide better matches.</p>
+
+  {% if user_profile %}
+    <form method="POST" style="max-width: 600px; margin: 0 auto;">
+      {% if profile_type == 'client' %}
+        <h2>Client Profile</h2>
+        
+        <label>Full Name:</label><br>
+        <input type="text" name="full_name" value="{{ user_profile.full_name or '' }}" required><br><br>
+        
+        <label>Phone Number:</label><br>
+        <input type="tel" name="phone_number" value="{{ user_profile.phone_number or '' }}" required><br><br>
+        
+        <label>Address:</label><br>
+        <input type="text" name="address" value="{{ user_profile.address or '' }}"><br><br>
+        
+        <label>Emergency Contact Name:</label><br>
+        <input type="text" name="emergency_contact_name" value="{{ user_profile.emergency_contact_name or '' }}"><br><br>
+        
+        <label>Emergency Contact Phone:</label><br>
+        <input type="tel" name="emergency_contact_phone" value="{{ user_profile.emergency_contact_phone or '' }}"><br><br>
+        
+        <label>Medical Conditions:</label><br>
+        <textarea name="medical_conditions" rows="3" placeholder="Please list any medical conditions...">{{ user_profile.medical_conditions or '' }}</textarea><br><br>
+        
+        <label>Special Instructions for Caretakers:</label><br>
+        <textarea name="special_instructions" rows="3" placeholder="Any specific needs, preferences, or instructions for your caretaker...">{{ user_profile.special_instructions or '' }}</textarea><br><br>
+        
+      {% elif profile_type == 'caretaker' %}
+        <h2>Caretaker Profile</h2>
+        
+        <label>Full Name:</label><br>
+        <input type="text" name="full_name" value="{{ user_profile.full_name or '' }}" required><br><br>
+        
+        <label>Phone Number:</label><br>
+        <input type="tel" name="phone_number" value="{{ user_profile.phone_number or '' }}" required><br><br>
+        
+        <label>Email:</label><br>
+        <input type="email" name="email" value="{{ user_profile.email or '' }}"><br><br>
+        
+        <label>Address:</label><br>
+        <input type="text" name="address" value="{{ user_profile.address or '' }}"><br><br>
+        
+        <label>City:</label><br>
+        <input type="text" name="city" value="{{ user_profile.city or '' }}"><br><br>
+        
+        <label>State:</label><br>
+        <input type="text" name="state" value="{{ user_profile.state or '' }}"><br><br>
+        
+        <label>ZIP Code:</label><br>
+        <input type="text" name="zip_code" value="{{ user_profile.zip_code or '' }}"><br><br>
+        
+        <label>Bio:</label><br>
+        <textarea name="bio" rows="4" placeholder="Tell us about yourself and your experience...">{{ user_profile.bio or '' }}</textarea><br><br>
+        
+        <label>Years of Experience:</label><br>
+        <input type="number" name="years_experience" value="{{ user_profile.years_experience or 0 }}" min="0"><br><br>
+        
+        <label>Hourly Rate ($):</label><br>
+        <input type="number" name="hourly_rate" value="{{ user_profile.hourly_rate or '' }}" step="0.01" min="0"><br><br>
+        
+        <label>Availability:</label><br>
+        <input type="text" name="availability" value="{{ user_profile.availability or '' }}" placeholder="e.g., Weekdays 9-5, Weekends"><br><br>
+        
+        <label>Certifications:</label><br>
+        <textarea name="certifications" rows="2" placeholder="List any relevant certifications...">{{ user_profile.certifications or '' }}</textarea><br><br>
+        
+        <label>Languages:</label><br>
+        <input type="text" name="languages" value="{{ user_profile.languages or '' }}" placeholder="e.g., English, Spanish"><br><br>
+        
+      {% endif %}
+      
+      <button type="submit" class="cta-button">Update Profile</button>
+    </form>
+    
+  {% else %}
+    <div style="text-align: center; padding: 40px;">
+      <h3>No Profile Found</h3>
+      <p>It looks like you don't have a profile yet. Please register first:</p>
+      <div style="margin-top: 20px;">
+        <a href="{{ url_for('show_client_form') }}" class="cta-button">Register as Client</a>
+        <a href="{{ url_for('show_caretaker_form') }}" class="cta-button secondary">Register as Caretaker</a>
+      </div>
+    </div>
+  {% endif %}
+
+  <div style="text-align: center; margin-top: 30px;">
+    <a href="{{ url_for('dashboard') }}" class="cta-button secondary">Back to Dashboard</a>
+  </div>
+{% endblock %}

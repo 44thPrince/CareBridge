@@ -35,32 +35,32 @@ class DatabasePersistence:
                 return cur.fetchone()
 
     def insert_client(self, full_name, phone_number, date_of_birth, address, emergency_contact_name=None, 
-                     emergency_contact_phone=None, medical_conditions=None, special_instructions=None):
+                     emergency_contact_phone=None, medical_conditions=None, special_instructions=None, user_id=None):
         with _database_connect() as conn:
             with conn.cursor() as cur:
                 cur.execute("""
                     INSERT INTO clients (full_name, phone_number, date_of_birth, address, 
                                         emergency_contact_name, emergency_contact_phone, 
-                                        medical_conditions, special_instructions)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                                        medical_conditions, special_instructions, user_id)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
                     RETURNING id;
                 """, (full_name, phone_number, date_of_birth, address, emergency_contact_name,
-                     emergency_contact_phone, medical_conditions, special_instructions))
+                     emergency_contact_phone, medical_conditions, special_instructions, user_id))
                 return cur.fetchone()[0]
 
     def insert_caretaker(self, full_name, phone_number, date_of_birth, email=None, address=None,
                         city=None, state=None, zip_code=None, bio=None, years_experience=0,
-                        hourly_rate=None, availability=None, certifications=None, languages=None):
+                        hourly_rate=None, availability=None, certifications=None, languages=None, user_id=None):
         with _database_connect() as conn:
             with conn.cursor() as cur:
                 cur.execute("""
                     INSERT INTO caretakers (full_name, phone_number, date_of_birth, email, address,
                                            city, state, zip_code, bio, years_experience, hourly_rate,
-                                           availability, certifications, languages)
-                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                                           availability, certifications, languages, user_id)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                     RETURNING id;
                 """, (full_name, phone_number, date_of_birth, email, address, city, state, zip_code,
-                     bio, years_experience, hourly_rate, availability, certifications, languages))
+                     bio, years_experience, hourly_rate, availability, certifications, languages, user_id))
                 return cur.fetchone()[0]
 
     def get_all_caretakers(self):

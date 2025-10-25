@@ -71,8 +71,8 @@ CREATE TABLE adl_service_types (
 INSERT INTO users (username, password_hash)
 VALUES 
   ('admin', '$2b$12$mFqYPtWtKidDOVNuKVuMC.gx6Bw470JfwG/yz0fPMy5pfBJO0qnL6'),
-  ('client1', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/8Qz8K2'),
-  ('caretaker1', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj4J/8Qz8K2');
+  ('client1', '$2b$12$6.ZOuKjZyEziTg8J35o8KejHgMNLlFiVEn2gA1ZM3d5rD9Vj8divG'),
+  ('caretaker1', '$2b$12$6.ZOuKjZyEziTg8J35o8KejHgMNLlFiVEn2gA1ZM3d5rD9Vj8divG');
 
 -- Seed ADL Service Types
 INSERT INTO adl_service_types (category, service_name, description, display_order) VALUES
@@ -98,10 +98,11 @@ INSERT INTO adl_service_types (category, service_name, description, display_orde
 ('specialized_care', 'Companionship', 'Social interaction, conversation, emotional support', 17);
 
 -- Seed: clients
-INSERT INTO clients (full_name, phone_number, date_of_birth, address, emergency_contact_name, emergency_contact_phone)
+INSERT INTO clients (full_name, phone_number, date_of_birth, address, emergency_contact_name, emergency_contact_phone, medical_conditions, special_instructions)
 VALUES
-('Alice Johnson', '555-1111', '1945-08-12', '123 Main St', 'Bob Johnson', '555-1112'),
-('Mark Davis', '555-2222', '1960-03-05', '456 Elm St', 'Mary Davis', '555-2223');
+('Alice Johnson', '555-1111', '1945-08-12', '123 Main St', 'Bob Johnson', '555-1112', NULL, NULL),
+('Mark Davis', '555-2222', '1960-03-05', '456 Elm St', 'Mary Davis', '555-2223', NULL, NULL),
+('Demo Client', 'client1', '1950-01-01', '123 Demo Street, Orlando, FL', 'Jane Smith', '555-0101', 'Mild arthritis, needs assistance with mobility', 'Prefers morning appointments, likes classical music');
 
 -- Seed: caretakers with ADL capabilities
 INSERT INTO caretakers (full_name, phone_number, email, date_of_birth, address, city, state, zip_code, bio, years_experience, hourly_rate, availability, certifications, languages, background_check_status)
