@@ -1,6 +1,6 @@
 --create db
-DROP DATABASE IF EXISTS apt_manager;
-CREATE DATABASE apt_manager;
+DROP DATABASE IF EXISTS carebridgedb;
+CREATE DATABASE carebridgedb;
 
 \c apt_manager
 
