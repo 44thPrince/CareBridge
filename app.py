@@ -48,7 +48,28 @@ def signin():
         if user and check_password(password, user['password_hash']):
             session['user_id'] = user['id']
             session['username'] = user['username']
-            flash(f"Welcome back, {username}!")
+            
+            # Try to get user's full name from profile
+            full_name = username
+            try:
+                with _database_connect() as conn:
+                    with conn.cursor(cursor_factory=DictCursor) as cur:
+                        # Try to find user as client first
+                        cur.execute("SELECT full_name FROM clients WHERE user_id = %s", (user['id'],))
+                        profile = cur.fetchone()
+                        if profile and profile['full_name']:
+                            full_name = profile['full_name']
+                        else:
+                            # If not found as client, try as caretaker
+                            cur.execute("SELECT full_name FROM caretakers WHERE user_id = %s", (user['id'],))
+                            profile = cur.fetchone()
+                            if profile and profile['full_name']:
+                                full_name = profile['full_name']
+            except Exception as e:
+                print(f"Error fetching user profile: {e}")
+                pass
+            
+            flash(f"Welcome back, {full_name}!")
             return redirect(next_page)
         else:
             flash("Invalid username or password. Please try again.")
