@@ -91,13 +91,11 @@ def dashboard():
     
     # Get AI matches for clients
     ai_matches = None
+    all_caretakers = []
+    
     if user_profile and user_profile.get('type') == 'client':
         try:
-            # Analyze client needs
-            ai_service = get_ai_service()
-            client_needs = ai_service.analyze_client_needs(user_profile)
-            
-            # Get caretaker ADL services for matching
+            # Get all caretakers
             caretakers = db.get_all_caretakers()
             caretakers_with_adls = []
             for caretaker in caretakers:
@@ -111,17 +109,48 @@ def dashboard():
                     caretaker_dict['adl_services'] = []
                 caretakers_with_adls.append(caretaker_dict)
             
+            all_caretakers = caretakers_with_adls
+            
             # Get AI matches
-            ai_matches = ai_service.match_caretakers(client_needs, caretakers_with_adls)
+            try:
+                ai_service = get_ai_service()
+                client_needs = ai_service.analyze_client_needs(user_profile)
+                ai_matches = ai_service.match_caretakers(client_needs, caretakers_with_adls)
+            except Exception as e:
+                print(f"Error in AI matching: {e}")
+                ai_matches = None
             
         except Exception as e:
-            print(f"Error in AI matching: {e}")
-            ai_matches = None
+            print(f"Error fetching caretakers: {e}")
     
     return render_template("dashboard.html", 
                          username=username, 
                          user_profile=user_profile,
-                         ai_matches=ai_matches)
+                         ai_matches=ai_matches,
+                         all_caretakers=all_caretakers)
+
+@app.route("/caretakers")
+@login_required
+def all_caretakers():
+    """Display all available caretakers"""
+    # Get all caretakers with their ADL services
+    try:
+        caretakers = db.get_all_caretakers()
+        caretakers_with_adls = []
+        for caretaker in caretakers:
+            caretaker_dict = dict(caretaker)
+            try:
+                caretaker_adls = db.get_caretaker_adls(caretaker_dict['id'])
+                caretaker_dict['adl_services'] = [adl['service_type'] for adl in caretaker_adls if adl.get('is_available', True)]
+            except Exception as e:
+                print(f"Error getting ADL services for caretaker {caretaker_dict.get('id')}: {e}")
+                caretaker_dict['adl_services'] = []
+            caretakers_with_adls.append(caretaker_dict)
+    except Exception as e:
+        print(f"Error fetching caretakers: {e}")
+        caretakers_with_adls = []
+    
+    return render_template("all_caretakers.html", caretakers=caretakers_with_adls)
 
 @app.route("/profile/edit", methods=["GET", "POST"])
 @login_required
