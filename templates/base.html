@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<<<<<<< HEAD
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CareBridge - Accessible Care Platform</title>
@@ -315,7 +314,6 @@
     <nav role="navigation" aria-label="Main navigation">
         <a href="{{ url_for('home') }}">Home</a>
         {% if session.user_id %}
-=======
   <meta charset="UTF-8">
   <title>CareBridge</title>
   <style>
@@ -558,12 +556,10 @@
   <nav>
     <a href="{{ url_for('home') }}">Home</a>
           {% if session.user_id %}
->>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
             <a href="{{ url_for('dashboard') }}">Dashboard</a>
             <a href="{{ url_for('ai_matches') }}">AI Matches</a>
             <a href="{{ url_for('edit_profile') }}">Edit Profile</a>
             <a href="{{ url_for('logout') }}">Logout</a>
-<<<<<<< HEAD
         {% else %}
             <a href="{{ url_for('signin') }}">Sign In</a>
         {% endif %}
@@ -581,7 +577,6 @@
     <script src="{{ url_for('static', filename='voiceover.js') }}"></script>
 </body>
 </html>
-=======
           {% else %}
             <a href="{{ url_for('signin') }}">Sign In</a>
           {% endif %}
@@ -597,4 +592,3 @@
   </main>
 </body>
 </html>
->>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b

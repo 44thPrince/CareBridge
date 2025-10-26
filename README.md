@@ -242,11 +242,7 @@ def ai_matches():
 Before running CareBridge, make sure you have the following installed on your system:
 
 - **Python 3.8+** - [Download Python](https://www.python.org/downloads/)
-<<<<<<< HEAD
-- **PostgreSQL** - [Download PostgreSQL](https://www.postgresql.org/download/)
-=======
 - **PostgreSQL 14.9** - [Download PostgreSQL](https://www.postgresql.org/download/)
->>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
 - **Git** - [Download Git](https://git-scm.com/downloads)
 
 ### Step 1: Clone the Repository
@@ -258,23 +254,6 @@ cd CareBridge
 
 ### Step 2: Set Up Virtual Environment
 
-<<<<<<< HEAD
-```bash
-# Create virtual environment
-python -m venv venv
-
-# Activate virtual environment
-# On Windows:
-venv\Scripts\activate
-# On macOS/Linux:
-source venv/bin/activate
-```
-
-### Step 3: Install Dependencies
-
-```bash
-pip install flask psycopg2-binary bcrypt python-dotenv
-=======
 A virtual environment isolates your project's dependencies from other Python projects on your system. This is a best practice and helps avoid dependency conflicts.
 
 ```bash
@@ -323,7 +302,6 @@ This will install:
 **Note**: If you ever need to deactivate the virtual environment, simply run:
 ```bash
 deactivate
->>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
 ```
 
 ### Step 4: Set Up Database
@@ -402,8 +380,6 @@ venv\Scripts\activate     # Windows
 pip install -r requirements.txt
 ```
 
-<<<<<<< HEAD
-=======
 **Virtual Environment Issues:**
 ```bash
 # If 'venv' directory doesn't exist, create it
@@ -428,7 +404,6 @@ pip install --force-reinstall -r requirements.txt
 pip install --upgrade pip
 ```
 
->>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
 **Database Permission Issues:**
 ```bash
 # Create user with proper permissions

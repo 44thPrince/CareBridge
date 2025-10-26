@@ -1,17 +1,10 @@
-<<<<<<< HEAD
 from elevenlabs_service import elevenlabs_service
 from flask import Response  # Add Response to existing flask imports
-=======
->>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, session
 from database import DatabasePersistence, _database_connect
 from psycopg2.extras import DictCursor
 import bcrypt
-<<<<<<< HEAD
-from ai_matching import ai_service
-=======
 from ai_matching import get_ai_service
->>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
@@ -98,28 +91,16 @@ def dashboard():
         print(f"Error fetching user profile: {e}")
         pass
     
-<<<<<<< HEAD
-    # Get user-specific data based on role
-    caretakers = db.get_all_caretakers()
-    
-=======
->>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
     # Get AI matches for clients
     ai_matches = None
     if user_profile and user_profile.get('type') == 'client':
         try:
             # Analyze client needs
-<<<<<<< HEAD
-            client_needs = ai_service.analyze_client_needs(user_profile)
-            
-            # Get caretaker ADL services for matching
-=======
             ai_service = get_ai_service()
             client_needs = ai_service.analyze_client_needs(user_profile)
             
             # Get caretaker ADL services for matching
             caretakers = db.get_all_caretakers()
->>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
             caretakers_with_adls = []
             for caretaker in caretakers:
                 # Convert DictRow to dict to allow modification
@@ -142,10 +123,6 @@ def dashboard():
     return render_template("dashboard.html", 
                          username=username, 
                          user_profile=user_profile,
-<<<<<<< HEAD
-                         caretakers=caretakers,
-=======
->>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
                          ai_matches=ai_matches)
 
 @app.route("/profile/edit", methods=["GET", "POST"])
@@ -281,10 +258,7 @@ def ai_matches():
     # Get AI matches
     try:
         # Analyze client needs
-<<<<<<< HEAD
-=======
         ai_service = get_ai_service()
->>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
         client_needs = ai_service.analyze_client_needs(user_profile)
         
         # Get all caretakers with ADL services
@@ -416,7 +390,6 @@ def api_create_caretaker():
     except Exception as e:
         return jsonify({"status": "error", "error": str(e)}), 500
 
-<<<<<<< HEAD
 @app.route("/api/text-to-speech", methods=["POST"])
 def api_text_to_speech():
     """API endpoint for converting text to speech using ElevenLabs"""
@@ -460,9 +433,7 @@ def api_get_voices():
         print(f"Error fetching voices: {e}")
         return jsonify({"error": "Could not fetch voices"}), 500
     
-=======
 
->>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
 # ---------------------- Run ----------------------
 
 if __name__ == "__main__":

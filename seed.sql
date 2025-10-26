@@ -1,30 +1,8 @@
-<<<<<<< HEAD
--- ========================================
--- CareBridge Database Schema for pgAdmin4
--- ========================================
--- 
--- INSTRUCTIONS FOR pgAdmin4:
--- 1. First, run the DROP/CREATE DATABASE commands below in the postgres database
--- 2. Then, right-click on the new 'carebridgedb' database and select "Query Tool"
--- 3. Copy and paste the rest of this file (starting from "-- Tables") into that query tool
--- 4. Execute to create all tables and seed data
--- ========================================
-
--- STEP 1: Run this section while connected to the 'postgres' database
--- ========================================
-DROP DATABASE IF EXISTS carebridgedb;
-CREATE DATABASE carebridgedb;
-
--- ========================================
--- STEP 2: Now connect to 'carebridgedb' and run everything below
--- ========================================
-=======
 --create db
 DROP DATABASE IF EXISTS carebridgedb;
 CREATE DATABASE carebridgedb;
 
 \c carebridgedb
->>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
 
 -- Tables
 CREATE TABLE users (
@@ -94,14 +72,10 @@ INSERT INTO users (username, password_hash)
 VALUES 
   ('admin', '$2b$12$mFqYPtWtKidDOVNuKVuMC.gx6Bw470JfwG/yz0fPMy5pfBJO0qnL6'),
   ('client1', '$2b$12$6.ZOuKjZyEziTg8J35o8KejHgMNLlFiVEn2gA1ZM3d5rD9Vj8divG'),
-<<<<<<< HEAD
-  ('caretaker1', '$2b$12$6.ZOuKjZyEziTg8J35o8KejHgMNLlFiVEn2gA1ZM3d5rD9Vj8divG');
-=======
   ('caretaker1', '$2b$12$6.ZOuKjZyEziTg8J35o8KejHgMNLlFiVEn2gA1ZM3d5rD9Vj8divG'),
   ('caretaker2', '$2b$12$6.ZOuKjZyEziTg8J35o8KejHgMNLlFiVEn2gA1ZM3d5rD9Vj8divG'),
   ('caretaker3', '$2b$12$6.ZOuKjZyEziTg8J35o8KejHgMNLlFiVEn2gA1ZM3d5rD9Vj8divG'),
   ('caretaker4', '$2b$12$6.ZOuKjZyEziTg8J35o8KejHgMNLlFiVEn2gA1ZM3d5rD9Vj8divG');
->>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
 
 -- Seed ADL Service Types
 INSERT INTO adl_service_types (category, service_name, description, display_order) VALUES
@@ -144,9 +118,6 @@ VALUES
  5, 22.00, 'Flexible availability', 'CPR, Physical Therapy Aide', 'English, Korean', 'verified'),
 ('Maria Rodriguez', '555-5555', 'maria.rodriguez@carebridge.com', '1990-03-10', '654 Maple Dr', 'Orlando', 'FL', '32803',
  'Dedicated caregiver with a heart for serving veterans and seniors. Bilingual in English and Spanish with background in meal planning.',
-<<<<<<< HEAD
- 4, 20.00, 'Monday-Saturday, 8am-6pm', 'First Aid, Food Safety', 'English, Spanish', 'verified');
-=======
  4, 20.00, 'Monday-Saturday, 8am-6pm', 'First Aid, Food Safety', 'English, Spanish', 'verified'),
 ('James Wilson', '555-6666', 'james.wilson@carebridge.com', '1982-11-30', '987 Cedar Blvd', 'Orlando', 'FL', '32806',
  'Military veteran with 10 years of experience caring for elderly and disabled individuals. Expert in emergency response and medical equipment management.',
@@ -163,7 +134,6 @@ VALUES
 ('Robert Anderson', '555-1010', 'robert.anderson@carebridge.com', '1980-06-08', '654 Ash St', 'Orlando', 'FL', '32803',
  'Compassionate caregiver with extensive experience in end-of-life care and emotional support. Background in psychology.',
  12, 32.00, 'Weekdays preferred, flexible hours', 'Grief Counseling, Psychology Degree', 'English', 'verified');
->>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
 
 -- Seed: Caretaker ADL Services
 -- Sarah Lee's services
@@ -188,9 +158,6 @@ INSERT INTO caretaker_adls (caretaker_id, service_type, is_available, notes) VAL
 (3, 'Shopping & Errands', TRUE, NULL),
 (3, 'Laundry', TRUE, NULL),
 (3, 'Companionship', TRUE, 'Bilingual, great with communication'),
-<<<<<<< HEAD
-(3, 'Housekeeping', TRUE, 'Thorough and detail-oriented');
-=======
 (3, 'Housekeeping', TRUE, 'Thorough and detail-oriented');
 
 -- James Wilson's services
@@ -232,4 +199,3 @@ INSERT INTO caretaker_adls (caretaker_id, service_type, is_available, notes) VAL
 (8, 'Meal Planning & Preparation', TRUE, NULL),
 (8, 'Transportation', TRUE, NULL),
 (8, 'Emergency Response', TRUE, 'Crisis intervention trained');
->>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
