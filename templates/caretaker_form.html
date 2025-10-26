@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Register as a New Caretaker</h2>
+<form method="POST">
+  <h3>Basic Information</h3>
+  
+  <label>Full Name:</label><br>
+  <input type="text" name="full_name" required><br><br>
+
+  <label>Phone Number:</label><br>
+  <input type="tel" name="phone_number" required><br><br>
+
+  <label>Email:</label><br>
+  <input type="email" name="email"><br><br>
+
+  <label>Date of Birth:</label><br>
+  <input type="date" name="date_of_birth" required><br><br>
+
+  <h3>Location</h3>
+  
+  <label>Street Address:</label><br>
+  <input type="text" name="address"><br><br>
+
+  <label>City:</label><br>
+  <input type="text" name="city"><br><br>
+
+  <label>State:</label><br>
+  <input type="text" name="state" maxlength="2" placeholder="FL"><br><br>
+
+  <label>ZIP Code:</label><br>
+  <input type="text" name="zip_code" pattern="[0-9]{5}"><br><br>
+
+  <h3>Professional Details</h3>
+
+  <label>Years of Experience:</label><br>
+  <input type="number" name="years_experience" min="0" value="0"><br><br>
+
+  <label>Hourly Rate ($):</label><br>
+  <input type="number" name="hourly_rate" step="0.01" min="0" placeholder="20.00"><br><br>
+
+  <label>Availability:</label><br>
+  <input type="text" name="availability" placeholder="e.g., Monday-Friday, 9am-5pm"><br><br>
+
+  <label>Certifications (comma-separated):</label><br>
+  <input type="text" name="certifications" placeholder="CPR, CNA, etc."><br><br>
+
+  <label>Languages (comma-separated):</label><br>
+  <input type="text" name="languages" placeholder="English, Spanish"><br><br>
+
+  <label>Professional Bio:</label><br>
+  <textarea name="bio" rows="4" placeholder="Tell clients about your experience and approach to caregiving..."></textarea><br><br>
+
+  <h3>Services You Provide (ADL Capabilities)</h3>
+  <p>Select all services you are qualified and available to provide:</p>
+
+  <fieldset>
+    <legend><strong>Basic Activities of Daily Living</strong></legend>
+    <label><input type="checkbox" name="adl_services" value="Bathing & Personal Hygiene"> Bathing & Personal Hygiene</label><br>
+    <label><input type="checkbox" name="adl_services" value="Dressing Assistance"> Dressing Assistance</label><br>
+    <label><input type="checkbox" name="adl_services" value="Eating & Feeding"> Eating & Feeding</label><br>
+    <label><input type="checkbox" name="adl_services" value="Mobility & Transfers"> Mobility & Transfers</label><br>
+    <label><input type="checkbox" name="adl_services" value="Toileting Assistance"> Toileting Assistance</label><br>
+  </fieldset>
+
+  <fieldset>
+    <legend><strong>Instrumental Activities of Daily Living</strong></legend>
+    <label><input type="checkbox" name="adl_services" value="Meal Planning & Preparation"> Meal Planning & Preparation</label><br>
+    <label><input type="checkbox" name="adl_services" value="Housekeeping"> Housekeeping</label><br>
+    <label><input type="checkbox" name="adl_services" value="Laundry"> Laundry</label><br>
+    <label><input type="checkbox" name="adl_services" value="Transportation"> Transportation</label><br>
+    <label><input type="checkbox" name="adl_services" value="Shopping & Errands"> Shopping & Errands</label><br>
+    <label><input type="checkbox" name="adl_services" value="Medication Management"> Medication Management</label><br>
+    <label><input type="checkbox" name="adl_services" value="Technology Assistance"> Technology Assistance</label><br>
+  </fieldset>
+
+  <fieldset>
+    <legend><strong>Specialized Care</strong></legend>
+    <label><input type="checkbox" name="adl_services" value="Dementia & Alzheimer Care"> Dementia & Alzheimer Care</label><br>
+    <label><input type="checkbox" name="adl_services" value="Physical Therapy Assistance"> Physical Therapy Assistance</label><br>
+    <label><input type="checkbox" name="adl_services" value="Medical Equipment Management"> Medical Equipment Management</label><br>
+    <label><input type="checkbox" name="adl_services" value="Emergency Response"> Emergency Response</label><br>
+    <label><input type="checkbox" name="adl_services" value="Companionship"> Companionship</label><br>
+  </fieldset>
+
+  <br>
+  <button type="submit" class="cta-button">Register as Caretaker</button>
+</form>
+{% endblock %}

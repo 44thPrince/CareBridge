@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareBridge Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for better accessibility and senior-friendly design */
+        :root {
+            --primary-color: #3B82F6; /* Blue-500 */
+            --secondary-color: #FBBF24; /* Amber-400 */
+            --bg-color: #F9FAFB; /* Gray-50 */
+            --card-bg: #FFFFFF;
+        }
+
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+        }
+
+
+        /* Large, clear inputs and focus rings */
+        .form-input {
+            padding: 1rem;
+            border-radius: 0.75rem; /* rounded-xl */
+            border: 2px solid #D1D5DB; /* Gray-300 */
+            font-size: 1.125rem; /* text-lg */
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.5);
+        }
+
+
+        .btn-primary {
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            font-size: 1.25rem; /* text-xl */
+            font-weight: 600;
+            background-color: var(--primary-color);
+            color: white;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+
+        .btn-primary:hover {
+            background-color: #2563EB; /* Blue-600 */
+        }
+
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            border: 1px solid #E5E7EB;
+            cursor: pointer;
+            transition: background-color 0.2s, border-color 0.2s;
+            background-color: var(--card-bg);
+        }
+       
+        /* Style for checked state for checkboxes/radios */
+        input[type="checkbox"]:checked + span,
+        input[type="radio"]:checked + span {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+
+        /* Adjusting checkbox size for better touch target */
+        .custom-checkbox {
+            min-width: 1.5rem; /* h-6 w-6 */
+            min-height: 1.5rem; /* h-6 w-6 */
+        }
+
+
+    </style>
+</head>
+<body>
+
+
+    <div id="app" class="min-h-screen p-4 sm:p-8 flex justify-center items-start">
+        <div class="w-full max-w-4xl bg-white shadow-2xl rounded-2xl p-6 sm:p-10 border-t-8 border-blue-500">
+           
+            <header class="text-center mb-10">
+                <h1 class="4xl sm:text-5xl font-extrabold text-gray-800 mb-2">CareBridge Profile</h1>
+                <p class="text-xl text-gray-600">Tell us about your needs and preferences so we can find your ideal caregiver.</p>
+                <div class="mt-4 text-sm text-gray-500">
+                    Your unique profile ID: <span id="user-id" class="font-mono text-blue-600 bg-blue-50 p-1 rounded">Loading...</span>
+                </div>
+            </header>
+
+
+            <form id="profile-form">
+
+
+                <!-- 1. PERSONAL & LOGISTICS (BASIC) -->
+                <h2 class="text-2xl font-bold text-gray-700 mt-8 mb-4 border-b pb-2">1. Personal & Location Details</h2>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="col-span-2 md:col-span-1">
+                        <label for="full_name" class="block text-lg font-medium text-gray-700 mb-2">Patient's Full Name</label>
+                        <input type="text" id="full_name" name="full_name" required class="w-full form-input">
+                    </div>
+                    <div class="col-span-2 md:col-span-1">
+                        <label for="contact_phone" class="block text-lg font-medium text-gray-700 mb-2">Primary Contact Phone</label>
+                        <input type="tel" id="contact_phone" name="contact_phone" required class="w-full form-input">
+                    </div>
+                    <div>
+                        <label for="patient_city" class="block text-lg font-medium text-gray-700 mb-2">City of Residence</label>
+                        <input type="text" id="patient_city" name="patient_city" required class="w-full form-input">
+                    </div>
+                    <div>
+                        <label for="patient_state" class="block text-lg font-medium text-gray-700 mb-2">State/Region</label>
+                        <input type="text" id="patient_state" name="patient_state" required class="w-full form-input">
+                    </div>
+                    <div class="md:col-span-2">
+                        <label for="language_preference" class="block text-lg font-medium text-gray-700 mb-2">Primary Language Spoken</label>
+                        <input type="text" id="language_preference" name="language_preference" placeholder="e.g., English, Spanish, Mandarin" class="w-full form-input">
+                    </div>
+                    <!-- NEW PARAMETER: VETERAN STATUS -->
+                    <div class="col-span-2">
+                        <label class="block text-lg font-medium text-gray-700 mb-2">Patient Veteran Status</label>
+                        <div class="flex space-x-6">
+                            <span class="checkbox-label">
+                                <input type="radio" id="vet_yes" name="veteran_status" value="Yes" required class="h-6 w-6 text-blue-600 rounded-full border-gray-300 focus:ring-blue-500">
+                                <span class="ml-3 text-lg text-gray-700 select-none">Yes, is a Veteran</span>
+                            </span>
+                            <span class="checkbox-label">
+                                <input type="radio" id="vet_no" name="veteran_status" value="No" required class="h-6 w-6 text-blue-600 rounded-full border-gray-300 focus:ring-blue-500">
+                                <span class="ml-3 text-lg text-gray-700 select-none">No</span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- 2. CARE & MEDICAL NEEDS vs. CAREGIVER EXPERTISE -->
+                <h2 class="text-2xl font-bold text-gray-700 mt-10 mb-4 border-b pb-2">2. Core Health & Expertise Requirements</h2>
+               
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Required Level of Care -->
+                    <div>
+                        <label class="block text-lg font-medium text-gray-700 mb-2">Required Level of Care</label>
+                        <p class="text-sm text-gray-500 mb-3">Determines necessary certifications (e.g., CNA, HHA).</p>
+                        <select id="required_care_level" name="required_care_level" required class="w-full form-input bg-white">
+                            <option value="" disabled selected>Select Care Level</option>
+                            <option value="companion">Companion Care (Minimal physical help)</option>
+                            <option value="personal">Personal Care (Bathing, dressing, hygiene)</option>
+                            <option value="skilled">Skilled Nursing (Requires LPN/RN)</option>
+                        </select>
+                    </div>
+
+
+                    <!-- Level of Mobility (Existing) -->
+                    <div>
+                        <label class="block text-lg font-medium text-gray-700 mb-2">Level of Mobility</label>
+                        <p class="text-sm text-gray-500 mb-3">Required for matching physical ability/training.</p>
+                        <select id="level_of_mobility" name="level_of_mobility" required class="w-full form-input bg-white">
+                            <option value="" disabled selected>Select Mobility Level</option>
+                            <option value="fully_independent">Fully Independent</option>
+                            <option value="walks_with_aid">Walks with Aid (Cane, Walker)</option>
+                            <option value="wheelchair_transfer">Requires Wheelchair (Needs transfer assistance)</option>
+                            <option value="bed_bound">Primarily Bed-Bound (Requires full lifting assistance)</option>
+                        </select>
+                    </div>
+
+
+                    <!-- NEW PARAMETER: COGNITIVE STATUS -->
+                    <div>
+                        <label class="block text-lg font-medium text-gray-700 mb-2">Cognitive Status / Impairment Level</label>
+                        <p class="text-sm text-gray-500 mb-3">Critical for behavioral training matching.</p>
+                        <select id="cognitive_status" name="cognitive_status" required class="w-full form-input bg-white">
+                            <option value="" disabled selected>Select Cognitive Status</option>
+                            <option value="none">None / Fully Intact</option>
+                            <option value="mild">Mild Cognitive Decline (MCD)</option>
+                            <option value="moderate">Moderate Impairment (Needs consistent redirection)</option>
+                            <option value="severe">Severe Impairment (Significant behavioral/safety challenges)</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <!-- NEW PARAMETER: FALL RISK & SAFETY -->
+                <div class="mt-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-lg font-medium text-gray-700 mb-2">Fall Risk Assessment</label>
+                            <p class="text-sm text-gray-500 mb-3">Priority level for safety training and fall prevention.</p>
+                            <select id="fall_risk_level" name="fall_risk_level" required class="w-full form-input bg-white">
+                                <option value="" disabled selected>Select Risk Level</option>
+                                <option value="low">Low Risk</option>
+                                <option value="moderate">Moderate Risk</option>
+                                <option value="high">High Risk (Requires constant supervision)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="safety_concerns_notes" class="block text-lg font-medium text-gray-700 mb-2">Specific Safety Concerns</label>
+                            <p class="text-sm text-gray-500 mb-3">E.g., History of Wandering, Agitation Frequency, specific transfer needs.</p>
+                            <!-- FIXED: Increased rows to 3 to prevent clipping -->
+                            <textarea id="safety_concerns_notes" name="safety_concerns_notes" rows="3" placeholder="Describe safety concerns or required training." class="w-full form-input"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Specific Medical Conditions -->
+                <div class="mt-6">
+                    <label class="block text-lg font-medium text-gray-700 mb-3">Specific Medical Needs (Experience required)</label>
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="condition_dementia" name="specific_medical_conditions" value="Dementia/Alzheimer's" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Dementia or Alzheimer's</span>
+                        </span>
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="condition_diabetes" name="specific_medical_conditions" value="Diabetes Management" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Diabetes Management</span>
+                        </span>
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="condition_stroke" name="specific_medical_conditions" value="Post-Stroke Care" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Post-Stroke Care</span>
+                        </span>
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="condition_ostomy" name="specific_medical_conditions" value="Ostomy/Wound Care" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Ostomy or Wound Care</span>
+                        </span>
+                    </div>
+                </div>
+
+
+                <!-- NEW PARAMETER: ALLERGIES & SPECIFIC DIETARY NEEDS -->
+                <div class="mt-8">
+                    <label class="block text-lg font-medium text-gray-700 mb-3">Key Safety: Allergies & Dietary Modification</label>
+                    <p class="text-sm text-gray-500 mb-3">Check all common allergies and specific food/liquid preparations required.</p>
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="allergy_pets" name="allergies_dietary_detail" value="Pet Dander Allergy" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Pet Dander Allergy</span>
+                        </span>
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="allergy_gluten" name="allergies_dietary_detail" value="Gluten Intolerance" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Gluten or Wheat Intolerance</span>
+                        </span>
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="diet_pureed" name="allergies_dietary_detail" value="Pureed Diet Required" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Pureed Diet Required</span>
+                        </span>
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="diet_thickened" name="allergies_dietary_detail" value="Thickened Liquids Required" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Thickened Liquids Required</span>
+                        </span>
+                    </div>
+                </div>
+
+
+                <!-- Daily Support Services (Existing) -->
+                <div class="mt-6">
+                    <label class="block text-lg font-medium text-gray-700 mb-3">Required Daily Support Services (Specific Duties)</label>
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="service_hygiene" name="required_services" value="Hygiene Support" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Bathing, Dressing, or Toileting</span>
+                        </span>
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="service_medication" name="required_services" value="Medication Reminders" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Medication Reminders</span>
+                        </span>
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="service_meal_prep" name="required_services" value="Meal Preparation" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Meal Preparation and Feeding</span>
+                        </span>
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="service_errands" name="required_services" value="Errands and Transportation" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Errands and Transportation</span>
+                        </span>
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="service_housekeeping" name="required_services" value="Light Housekeeping" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Light Housekeeping and Tidying</span>
+                        </span>
+                    </div>
+                </div>
+
+
+                <!-- Detailed Medical Notes (Existing) -->
+                <div class="mt-6">
+                    <label for="medical_conditions_notes" class="block text-lg font-medium text-gray-700 mb-2">Detailed Physical/Medical Notes</label>
+                    <textarea id="medical_conditions_notes" name="medical_conditions_notes" rows="3" placeholder="Describe specific needs like transfer methods (e.g., 'Requires use of Hoyer Lift'), dietary restrictions, or complex behavioral notes." class="w-full form-input"></textarea>
+                </div>
+
+
+
+
+                <!-- 3. LOGISTICS & SCHEDULING -->
+                <h2 class="text-2xl font-bold text-gray-700 mt-10 mb-4 border-b pb-2">3. Logistics & Schedule</h2>
+               
+                <div class="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+                    <!-- Required Schedule Type -->
+                    <div>
+                        <label class="block text-lg font-medium text-gray-700 mb-2">Required Schedule Type</label>
+                        <select id="schedule_type" name="schedule_type" required class="w-full form-input bg-white">
+                            <option value="" disabled selected>Select Type</option>
+                            <option value="daily_shifts">Fixed Daily Shifts</option>
+                            <option value="live_in">Live-In Care</option>
+                            <option value="overnight">Overnight Only</option>
+                            <option value="flexible_as_needed">Flexible / As Needed</option>
+                        </select>
+                    </div>
+
+
+                    <!-- Care Continuity -->
+                    <div>
+                        <label class="block text-lg font-medium text-gray-700 mb-2">Desired Care Continuity</label>
+                        <select id="care_continuity" name="care_continuity" required class="w-full form-input bg-white">
+                            <option value="" disabled selected>Select Commitment</option>
+                            <option value="long_term_match">Long-Term Match</option>
+                            <option value="temporary_only">Temporary Assignment</option>
+                            <option value="backup_only">Backup / Fill-in</option>
+                        </select>
+                    </div>
+
+
+                    <!-- NEW PARAMETER: HOME ACCESSIBILITY -->
+                    <div>
+                        <label class="block text-lg font-medium text-gray-700 mb-2">Home Accessibility</label>
+                        <select id="home_accessibility" name="home_accessibility" required class="w-full form-input bg-white">
+                            <option value="" disabled selected>Select Home Setup</option>
+                            <option value="single_level">Single Level Home</option>
+                            <option value="stairs_required">Stairs Required</option>
+                            <option value="wheelchair_access">Wheelchair Access</option>
+                        </select>
+                    </div>
+
+
+                    <!-- NEW PARAMETER: FAMILY INTERACTION EXPECTATION -->
+                    <div class="sm:col-span-1">
+                        <label class="block text-lg font-medium text-gray-700 mb-2">Family Interaction Expectation</label>
+                        <select id="family_expectation" name="family_expectation" required class="w-full form-input bg-white">
+                            <option value="" disabled selected>Select Frequency</option>
+                            <option value="daily_comm">Daily Communication</option>
+                            <option value="weekly_checkin">Weekly Check-in</option>
+                            <option value="caregiver_independent">Caregiver Independent</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <!-- Schedule Details -->
+                <div class="mt-6">
+                    <label for="schedule_details" class="block text-lg font-medium text-gray-700 mb-2">Detailed Schedule Requirements</label>
+                    <textarea id="schedule_details" name="schedule_details" rows="2" placeholder="e.g., 'Mondays, Wednesdays, Fridays 10:00 AM - 2:00 PM', or 'Live-in, 7 days a week, 2 hours off per day'" class="w-full form-input"></textarea>
+                </div>
+
+
+               
+                <!-- 4. PERSONAL PREFERENCES & ENVIRONMENT -->
+                <h2 class="text-2xl font-bold text-gray-700 mt-10 mb-4 border-b pb-2">4. Preferences, Environment, & Compatibility</h2>
+               
+                <div class="grid md:grid-cols-3 gap-6">
+                    <!-- Gender Preference (Existing) -->
+                    <div>
+                        <label class="block text-lg font-medium text-gray-700 mb-2">Caregiver Gender Preference</label>
+                        <select id="gender_preference" name="gender_preference" required class="w-full form-input bg-white">
+                            <option value="" disabled selected>Select Preference</option>
+                            <option value="none">No Preference</option>
+                            <option value="female_preferred">Female Preferred</option>
+                            <option value="male_preferred">Male Preferred</option>
+                            <option value="female_required">Female Required (For intimate care)</option>
+                            <option value="male_required">Male Required (For intimate care)</option>
+                        </select>
+                    </div>
+
+
+                    <!-- Preferred Caregiver Temperament (Existing) -->
+                    <div>
+                        <label class="block text-lg font-medium text-gray-700 mb-2">Preferred Temperament</label>
+                        <select id="preferred_temperament" name="preferred_temperament" required class="w-full form-input bg-white">
+                            <option value="" disabled selected>Select Temperament</option>
+                            <option value="calm_gentle">Calm and Gentle</option>
+                            <option value="energetic_engaging">Energetic and Engaging</option>
+                            <option value="professional_formal">Professional and Formal</option>
+                        </select>
+                    </div>
+
+
+                    <!-- Communication Style Preference (Existing) -->
+                    <div>
+                        <label class="block text-lg font-medium text-gray-700 mb-2">Communication Style Preference</label>
+                        <select id="communication_style" name="communication_style" required class="w-full form-input bg-white">
+                            <option value="" disabled selected>Select Style</option>
+                            <option value="direct">Direct and Factual</option>
+                            <option value="empathetic">Empathetic and Soothing</option>
+                            <option value="humorous">Lighthearted and Humorous</option>
+                        </select>
+                    </div>
+                   
+                    <!-- NEW PARAMETER: SOCIAL PREFERENCE -->
+                    <div>
+                        <label class="block text-lg font-medium text-gray-700 mb-2">Social/Interpersonal Preference</label>
+                        <select id="social_preference" name="social_preference" required class="w-full form-input bg-white">
+                            <option value="" disabled selected>Select Preference</option>
+                            <option value="highly_social">Highly Social / Loves to Chat</option>
+                            <option value="quiet_solo">Prefers Quiet / Solo Activities</option>
+                            <option value="reserved">Reserved / Shy (Needs patient approach)</option>
+                        </select>
+                    </div>
+                   
+                    <!-- NEW PARAMETER: ATTITUDE TOWARDS CARE -->
+                    <div>
+                        <label class="block text-lg font-medium text-gray-700 mb-2">Attitude Towards Receiving Care</label>
+                        <select id="care_attitude" name="care_attitude" required class="w-full form-input bg-white">
+                            <option value="" disabled selected>Select Attitude</option>
+                            <option value="accepts_easily">Accepts help easily (Cooperative)</option>
+                            <option value="needs_encouragement">Hesitant / Needs Encouragement</option>
+                            <option value="resistant">Resistant / Prone to Conflict (Needs superior soft skills)</option>
+                        </select>
+                    </div>
+                   
+                    <!-- NEW PARAMETER: ROUTINE TOLERANCE -->
+                    <div>
+                        <label class="block text-lg font-medium text-gray-700 mb-2">Tolerance for Routine Changes</label>
+                        <select id="routine_tolerance" name="routine_tolerance" required class="w-full form-input bg-white">
+                            <option value="" disabled selected>Select Tolerance Level</option>
+                            <option value="high">High (Very flexible)</option>
+                            <option value="moderate">Moderate (Prefers consistency)</option>
+                            <option value="low">Low (Requires strict, fixed routine)</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <!-- NEW PARAMETER: SMOKING POLICY (REFINED) -->
+                <div class="mt-6">
+                    <label class="block text-lg font-medium text-gray-700 mb-2">Smoking Policy at Home</label>
+                    <div class="flex flex-wrap gap-4">
+                        <span class="checkbox-label">
+                            <input type="radio" id="smoke_no" name="smoking_policy" value="Non-Smoking Environment" required class="h-6 w-6 text-blue-600 rounded-full border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Strictly Non-Smoking</span>
+                        </span>
+                        <span class="checkbox-label">
+                            <input type="radio" id="smoke_outdoor" name="smoking_policy" value="Smoking Allowed Outside Only" required class="h-6 w-6 text-blue-600 rounded-full border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Outdoor Smoking Only (Patient/Family)</span>
+                        </span>
+                        <span class="checkbox-label">
+                            <input type="radio" id="smoke_indoor" name="smoking_policy" value="Smoking Allowed Indoors" required class="h-6 w-6 text-blue-600 rounded-full border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Smoking Allowed Indoors</span>
+                        </span>
+                    </div>
+                </div>
+               
+                <!-- Home Environment Factors (NON-SMOKING ONLY) -->
+                <div class="mt-6">
+                    <label class="block text-lg font-medium text-gray-700 mb-3">Other Home Environment Factors</label>
+                    <p class="text-sm text-gray-500 mb-3">To ensure the caregiver is comfortable with the workplace.</p>
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="env_pets" name="environment_factors" value="Presence of Pets" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Presence of Pets (Dogs, cats, etc.)</span>
+                        </span>
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="env_noise" name="environment_factors" value="High Noise Level" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">High Noise Level (Kids, TV, construction)</span>
+                        </span>
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="env_clean" name="environment_factors" value="Requires High Cleanliness" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Requires High Cleanliness Standard</span>
+                        </span>
+                    </div>
+                </div>
+
+
+                <!-- NEW PARAMETER: REFINED HOBBIES/TOPICS -->
+                <div class="grid md:grid-cols-2 gap-6 mt-6">
+                    <div>
+                        <label for="favorite_topics" class="block text-lg font-medium text-gray-700 mb-2">Favorite Conversation Topics</label>
+                        <textarea id="favorite_topics" name="favorite_topics" rows="2" placeholder="e.g., The 1950s, War History, Gardening." class="w-full form-input"></textarea>
+                    </div>
+                    <div>
+                        <label for="topics_to_avoid" class="block text-lg font-medium text-gray-700 mb-2">Topics to Avoid (Taboos)</label>
+                        <textarea id="topics_to_avoid" name="topics_to_avoid" rows="2" placeholder="e.g., Politics, Deceased Spouse, Finances." class="w-full form-input"></textarea>
+                    </div>
+                </div>
+
+
+                <!-- NEW PARAMETER: REFINED CULTURAL/RELIGIOUS -->
+                <div class="mt-6">
+                    <label class="block text-lg font-medium text-gray-700 mb-3">Key Cultural/Religious Needs</label>
+                    <p class="text-sm text-gray-500 mb-3">Check all major categories that apply (for matching experience).</p>
+                    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="culture_kosher" name="cultural_religious_needs" value="Jewish - Kosher Diet" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Kosher Diet or Observance</span>
+                        </span>
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="culture_halal" name="cultural_religious_needs" value="Muslim - Halal Diet" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Halal Diet or Observance</span>
+                        </span>
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="culture_vegetarian" name="cultural_religious_needs" value="Vegetarian/Vegan Diet" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Vegetarian / Vegan Diet</span>
+                        </span>
+                        <span class="checkbox-label">
+                            <input type="checkbox" id="culture_holiday" name="cultural_religious_needs" value="Specific Holiday Observance" class="custom-checkbox h-6 w-6 text-blue-600 rounded border-gray-300 focus:ring-blue-500">
+                            <span class="ml-3 text-lg text-gray-700 select-none">Specific Holiday Observance</span>
+                        </span>
+                    </div>
+                </div>
+               
+                <div class="mt-6">
+                    <label for="cultural_religious_detail_notes" class="block text-lg font-medium text-gray-700 mb-2">Cultural/Religious Detail Notes</label>
+                    <textarea id="cultural_religious_detail_notes" name="cultural_religious_detail_notes" rows="3" placeholder="Add specific details not covered above (e.g., 'Requires help attending mass on Sunday,' 'No male caregiver in the presence of daughter')." class="w-full form-input"></textarea>
+                </div>
+
+
+                <div class="mt-10 pt-6 border-t">
+                    <button type="submit" id="save-button" class="btn-primary w-full shadow-lg hover:shadow-xl transition duration-200">
+                        Save Profile
+                    </button>
+                    <div id="status-message" class="text-center mt-4 text-lg font-semibold text-green-600 hidden">
+                        Profile successfully saved!
+                    </div>
+                </div>
+            </form>
+           
+        </div>
+    </div>
+
+
+    <!-- Firebase SDK Imports -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+
+        // Firestore configuration variables (provided by the environment)
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+
+        let db, auth, userId = null;
+        let isAuthReady = false;
+
+
+        setLogLevel('debug'); // Enable Firestore logging
+
+
+        /**
+         * Generates the secure, private document path for the patient's profile.
+         * Structure: /artifacts/{appId}/users/{userId}/patient_profiles/main_profile
+         * @param {string} uid The current user's unique ID.
+         * @returns {string} The full document path.
+         */
+        const getDocPath = (uid) => {
+            return `artifacts/${appId}/users/${uid}/patient_profiles/main_profile`;
+        };
+
+
+        const form = document.getElementById('profile-form');
+        const statusMessage = document.getElementById('status-message');
+        const userIdDisplay = document.getElementById('user-id');
+
+
+        // --- Firebase Initialization and Authentication ---
+        try {
+            const app = initializeApp(firebaseConfig);
+            db = getFirestore(app);
+            auth = getAuth(app);
+           
+            // Handle authentication
+            onAuthStateChanged(auth, async (user) => {
+                if (user) {
+                    // User is signed in.
+                    userId = user.uid;
+                    userIdDisplay.textContent = userId;
+                    isAuthReady = true;
+                    console.log("Firebase Auth: Signed in with UID:", userId);
+                    loadProfileData(userId);
+                } else {
+                    // No user is signed in, attempt sign-in.
+                    try {
+                        if (initialAuthToken) {
+                            await signInWithCustomToken(auth, initialAuthToken);
+                        } else {
+                            await signInAnonymously(auth);
+                            // After anonymous sign-in, the onAuthStateChanged listener above will fire.
+                        }
+                    } catch (error) {
+                        console.error("Firebase Auth Error:", error.code, error.message);
+                        userId = crypto.randomUUID(); // Fallback UUID if sign-in completely fails
+                        userIdDisplay.textContent = `Error/Fallback: ${userId}`;
+                        isAuthReady = true;
+                    }
+                }
+            });
+
+
+        } catch (e) {
+            console.error("Failed to initialize Firebase:", e);
+        }
+       
+
+
+        // --- Data Loading (Real-time with onSnapshot) ---
+        const loadProfileData = (uid) => {
+            if (!db || !uid) return;
+
+
+            const profileDocRef = doc(db, getDocPath(uid));
+
+
+            // Use onSnapshot for real-time updates and initial load
+            onSnapshot(profileDocRef, (docSnapshot) => {
+                if (docSnapshot.exists()) {
+                    const data = docSnapshot.data();
+                    console.log("Profile data loaded/updated:", data);
+                    fillForm(data);
+                } else {
+                    console.log("No existing profile found. Starting fresh.");
+                }
+            }, (error) => {
+                console.error("Error listening to profile data:", error);
+            });
+        };
+
+
+        const fillForm = (data) => {
+            // Helper function for radio buttons
+            const fillRadio = (name, value) => {
+                const radio = document.querySelector(`input[name="${name}"][value="${value}"]`);
+                if (radio) radio.checked = true;
+            };
+
+
+            // Fill text/select/radio inputs
+            document.getElementById('full_name').value = data.full_name || '';
+            document.getElementById('contact_phone').value = data.contact_phone || '';
+            document.getElementById('patient_city').value = data.patient_city || '';
+            document.getElementById('patient_state').value = data.patient_state || '';
+            document.getElementById('language_preference').value = data.language_preference || '';
+            document.getElementById('level_of_mobility').value = data.level_of_mobility || '';
+            document.getElementById('preferred_temperament').value = data.preferred_temperament || '';
+           
+            document.getElementById('personal_hobbies').value = data.personal_hobbies || '';
+           
+            // New Fields
+            document.getElementById('required_care_level').value = data.required_care_level || '';
+            document.getElementById('medical_conditions_notes').value = data.medical_conditions_notes || '';
+            document.getElementById('schedule_type').value = data.schedule_type || '';
+            document.getElementById('care_continuity').value = data.care_continuity || '';
+            document.getElementById('schedule_details').value = data.schedule_details || '';
+            document.getElementById('gender_preference').value = data.gender_preference || '';
+            document.getElementById('communication_style').value = data.communication_style || '';
+           
+            // NEW FIELDS (Previous Revision)
+            document.getElementById('cognitive_status').value = data.cognitive_status || '';
+            document.getElementById('family_expectation').value = data.family_expectation || '';
+            document.getElementById('home_accessibility').value = data.home_accessibility || '';
+            document.getElementById('social_preference').value = data.social_preference || '';
+            document.getElementById('care_attitude').value = data.care_attitude || '';
+            document.getElementById('routine_tolerance').value = data.routine_tolerance || '';
+            document.getElementById('favorite_topics').value = data.favorite_topics || '';
+            document.getElementById('topics_to_avoid').value = data.topics_to_avoid || '';
+            document.getElementById('cultural_religious_detail_notes').value = data.cultural_religious_detail_notes || '';
+
+
+            // NEW FIELDS (Current Revision)
+            document.getElementById('fall_risk_level').value = data.fall_risk_level || '';
+            document.getElementById('safety_concerns_notes').value = data.safety_concerns_notes || '';
+
+
+
+
+            // NEW RADIO BUTTONS
+            fillRadio('veteran_status', data.veteran_status);
+            fillRadio('smoking_policy', data.smoking_policy);
+
+
+
+
+            // Helper function for filling multiple checkboxes by name
+            const fillCheckboxes = (name, values) => {
+                const checkedValues = values || [];
+                document.querySelectorAll(`input[name="${name}"]`).forEach(checkbox => {
+                    checkbox.checked = checkedValues.includes(checkbox.value);
+                });
+            };
+
+
+            // Fill all checkbox groups
+            fillCheckboxes('required_services', data.required_services);
+            fillCheckboxes('specific_medical_conditions', data.specific_medical_conditions);
+            fillCheckboxes('environment_factors', data.environment_factors);
+            fillCheckboxes('cultural_religious_needs', data.cultural_religious_needs);
+            fillCheckboxes('allergies_dietary_detail', data.allergies_dietary_detail); // NEW CHECKBOX GROUP (Current Revision)
+        };
+
+
+
+
+        // --- Data Saving ---
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+
+            if (!db || !userId) {
+                console.error("Database or User ID not available. Cannot save.");
+                statusMessage.textContent = "Error: Authentication not ready. Try again in a moment.";
+                statusMessage.classList.remove('hidden', 'text-green-600');
+                statusMessage.classList.add('text-red-600');
+                return;
+            }
+
+
+            const formData = new FormData(form);
+            const profileData = {};
+
+
+            // Helper function to extract all checked values for a given checkbox name
+            const getCheckedValues = (name) => {
+                 return Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
+                    .map(cb => cb.value);
+            }
+
+
+            // Collect all fields from FormData (handles text/select)
+            for (let [key, value] of formData.entries()) {
+                // Ensure we only store the single value for radio/select/text, not multiple entries from unchecked radios
+                if (profileData[key] === undefined) {
+                    profileData[key] = value;
+                }
+            }
+           
+            // Manually handle Radio button groups (which may not be included if unchecked)
+            const getRadioValue = (name) => {
+                const selected = document.querySelector(`input[name="${name}"]:checked`);
+                return selected ? selected.value : null;
+            }
+            profileData.veteran_status = getRadioValue('veteran_status');
+            profileData.smoking_policy = getRadioValue('smoking_policy');
+
+
+            // Overwrite array fields from checkboxes
+            profileData.required_services = getCheckedValues('required_services');
+            profileData.specific_medical_conditions = getCheckedValues('specific_medical_conditions');
+            profileData.environment_factors = getCheckedValues('environment_factors');
+            profileData.cultural_religious_needs = getCheckedValues('cultural_religious_needs');
+            profileData.allergies_dietary_detail = getCheckedValues('allergies_dietary_detail'); // NEW CHECKBOX GROUP (Current Revision)
+
+
+            try {
+                const profileDocRef = doc(db, getDocPath(userId));
+               
+                await setDoc(profileDocRef, profileData);
+               
+                console.log("Profile successfully saved for user:", userId, profileData);
+               
+                // Show success message
+                statusMessage.textContent = "Profile successfully saved and updated!";
+                statusMessage.classList.remove('hidden', 'text-red-600');
+                statusMessage.classList.add('text-green-600');
+
+
+                // Hide message after a few seconds
+                setTimeout(() => {
+                    statusMessage.classList.add('hidden');
+                }, 4000);
+
+
+            } catch (error) {
+                console.error("Error saving profile data:", error);
+                statusMessage.textContent = `Error saving profile: ${error.message}`;
+                statusMessage.classList.remove('hidden', 'text-green-600');
+                statusMessage.classList.add('text-red-600');
+            }
+        });
+
+
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>Welcome to CareBridge</h1>
+  <p>Connecting compassionate caretakers with those who need support — elderly, disabled, veterans, and people with chronic conditions. Your trusted platform for quality care, think Uber but for healthcare services.</p>
+  
+  <div class="cta-buttons">
+    <a href="{{ url_for('show_client_form') }}" class="cta-button">I Need Care</a>
+    <a href="{{ url_for('show_caretaker_form') }}" class="cta-button secondary">I Want to Care</a>
+  </div>
+
+  <!-- Featured Caretakers Section -->
+  <div style="margin-top: 80px; padding: 40px 0;">
+    <h2 style="text-align: center; color: #2c3e50; margin-bottom: 40px; font-size: 2.5rem;">Meet Our Trusted Caretakers</h2>
+    <p style="text-align: center; color: #7f8c8d; font-size: 1.2rem; margin-bottom: 50px; max-width: 600px; margin-left: auto; margin-right: auto;">
+      Our carefully vetted caretakers are ready to provide compassionate, professional care tailored to your specific needs.
+    </p>
+    
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+      
+      <!-- Caretaker 1 -->
+      <div style="background: white; border-radius: 15px; padding: 30px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+          <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: bold; margin-right: 15px;">
+            MJ
+          </div>
+          <div>
+            <h3 style="margin: 0; color: #2c3e50; font-size: 1.3rem;">Maria Johnson</h3>
+            <div style="display: flex; align-items: center; margin-top: 5px;">
+              <div style="color: #f39c12; font-size: 1.1rem;">★★★★★</div>
+              <span style="margin-left: 8px; color: #7f8c8d; font-size: 0.9rem;">4.9 (127 reviews)</span>
+            </div>
+          </div>
+        </div>
+        
+        <p style="color: #7f8c8d; line-height: 1.6; margin-bottom: 20px;">
+          "Dedicated caregiver with 8+ years of experience. Specializes in elderly care, medication management, and mobility assistance. I believe in treating every client like family."
+        </p>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
+          <span style="background: #e8f5e8; color: #27ae60; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">Personal Care</span>
+          <span style="background: #e8f5e8; color: #27ae60; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">Medication Management</span>
+          <span style="background: #e8f5e8; color: #27ae60; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">Companionship</span>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: #2c3e50; font-weight: bold; font-size: 1.1rem;">$25/hour</span>
+          <span style="color: #7f8c8d; font-size: 0.9rem;">Available Now</span>
+        </div>
+      </div>
+
+      <!-- Caretaker 2 -->
+      <div style="background: white; border-radius: 15px; padding: 30px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+          <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #e74c3c, #c0392b); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: bold; margin-right: 15px;">
+            RS
+          </div>
+          <div>
+            <h3 style="margin: 0; color: #2c3e50; font-size: 1.3rem;">Robert Smith</h3>
+            <div style="display: flex; align-items: center; margin-top: 5px;">
+              <div style="color: #f39c12; font-size: 1.1rem;">★★★★★</div>
+              <span style="margin-left: 8px; color: #7f8c8d; font-size: 0.9rem;">4.8 (89 reviews)</span>
+            </div>
+          </div>
+        </div>
+        
+        <p style="color: #7f8c8d; line-height: 1.6; margin-bottom: 20px;">
+          "Experienced in disability care and physical therapy assistance. Certified in CPR and first aid. Passionate about helping clients maintain independence and dignity."
+        </p>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
+          <span style="background: #e8f5e8; color: #27ae60; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">Mobility Assistance</span>
+          <span style="background: #e8f5e8; color: #27ae60; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">Physical Therapy</span>
+          <span style="background: #e8f5e8; color: #27ae60; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">CPR Certified</span>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: #2c3e50; font-weight: bold; font-size: 1.1rem;">$28/hour</span>
+          <span style="color: #7f8c8d; font-size: 0.9rem;">Available Weekends</span>
+        </div>
+      </div>
+
+      <!-- Caretaker 3 -->
+      <div style="background: white; border-radius: 15px; padding: 30px; box-shadow: 0 8px 25px rgba(0,0,0,0.1); transition: transform 0.3s ease, box-shadow 0.3s ease;">
+        <div style="display: flex; align-items: center; margin-bottom: 20px;">
+          <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #9b59b6, #8e44ad); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.5rem; font-weight: bold; margin-right: 15px;">
+            LD
+          </div>
+          <div>
+            <h3 style="margin: 0; color: #2c3e50; font-size: 1.3rem;">Lisa Davis</h3>
+            <div style="display: flex; align-items: center; margin-top: 5px;">
+              <div style="color: #f39c12; font-size: 1.1rem;">★★★★★</div>
+              <span style="margin-left: 8px; color: #7f8c8d; font-size: 0.9rem;">4.9 (156 reviews)</span>
+            </div>
+          </div>
+        </div>
+        
+        <p style="color: #7f8c8d; line-height: 1.6; margin-bottom: 20px;">
+          "Specialized in dementia care and chronic condition management. Fluent in Spanish and English. Committed to providing emotional support and maintaining daily routines."
+        </p>
+        
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px;">
+          <span style="background: #e8f5e8; color: #27ae60; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">Dementia Care</span>
+          <span style="background: #e8f5e8; color: #27ae60; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">Bilingual</span>
+          <span style="background: #e8f5e8; color: #27ae60; padding: 4px 12px; border-radius: 20px; font-size: 0.85rem;">Meal Prep</span>
+        </div>
+        
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+          <span style="color: #2c3e50; font-weight: bold; font-size: 1.1rem;">$22/hour</span>
+          <span style="color: #7f8c8d; font-size: 0.9rem;">Flexible Schedule</span>
+        </div>
+      </div>
+    </div>
+    
+    <div style="text-align: center; margin-top: 50px;">
+      <a href="{{ url_for('signin') }}" class="cta-button" style="display: inline-block; margin: 0 10px;">View All Caretakers</a>
+      <a href="{{ url_for('show_caretaker_form') }}" class="cta-button secondary" style="display: inline-block; margin: 0 10px;">Join Our Team</a>
+    </div>
+  </div>
+
+  <!-- Why Choose CareBridge Section -->
+  <div style="background: linear-gradient(135deg, #f8f9fa, #e9ecef); margin-top: 80px; padding: 60px 20px; border-radius: 20px;">
+    <div style="max-width: 1000px; margin: 0 auto;">
+      <h2 style="text-align: center; color: #2c3e50; margin-bottom: 50px; font-size: 2.5rem;">Why Choose CareBridge?</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
+        <div style="text-align: center;">
+          <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: white; font-size: 2rem;">✓</div>
+          <h3 style="color: #2c3e50; margin-bottom: 15px;">Vetted Professionals</h3>
+          <p style="color: #7f8c8d; line-height: 1.6;">All caretakers undergo thorough background checks and skill assessments</p>
+        </div>
+        
+        <div style="text-align: center;">
+          <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #e74c3c, #c0392b); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: white; font-size: 2rem;">⚡</div>
+          <h3 style="color: #2c3e50; margin-bottom: 15px;">Quick Matching</h3>
+          <p style="color: #7f8c8d; line-height: 1.6;">Find the perfect caretaker based on your specific needs and preferences</p>
+        </div>
+        
+        <div style="text-align: center;">
+          <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #27ae60, #229954); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: white; font-size: 2rem;">🛡️</div>
+          <h3 style="color: #2c3e50; margin-bottom: 15px;">Safe & Secure</h3>
+          <p style="color: #7f8c8d; line-height: 1.6;">Your safety and privacy are our top priorities with 24/7 support</p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,10 @@
+# Use compatible versions for Flask and Werkzeug
+Flask==3.1.2
+Werkzeug==3.1.2  # CHANGED to >= 3.1.0 to meet Flask 3.1.2 dependency
+
+# Keep others constrained as specified
+psycopg2-binary==2.9.11
+bcrypt==5.0.0
+google-generativeai==0.8.5
+python-dotenv==1.1.1
+requests==2.32.5
