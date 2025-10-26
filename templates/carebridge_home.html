@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
-  <h1>Welcome to CareBridge</h1>
-  <p>Connecting compassionate caretakers with those who need support — elderly, disabled, veterans, and people with chronic conditions. Your trusted platform for quality care, think Uber but for healthcare services.</p>
+  <h1>Find help for daily living</h1>
+  <p>CareBridge connects compassionate caretakers with those who need support — elderly, disabled, veterans, and people with chronic conditions.</p>
   
   <div class="cta-buttons">
     <a href="{{ url_for('show_client_form') }}" class="cta-button">I Need Care</a>
-    <a href="{{ url_for('show_caretaker_form') }}" class="cta-button secondary">I Want to Care</a>
+    <a href="{{ url_for('show_caretaker_form') }}" class="cta-button secondary">I'm a Caretaker</a>
   </div>
 
   <!-- Featured Caretakers Section -->
@@ -121,20 +121,20 @@
     <div style="max-width: 1000px; margin: 0 auto;">
       <h2 style="text-align: center; color: #2c3e50; margin-bottom: 50px; font-size: 2.5rem;">Why Choose CareBridge?</h2>
       
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
-        <div style="text-align: center;">
+      <div style="display: flex; justify-content: space-between; gap: 40px; flex-wrap: wrap;">
+        <div style="text-align: center; flex: 1; min-width: 250px;">
           <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #3498db, #2980b9); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: white; font-size: 2rem;">✓</div>
           <h3 style="color: #2c3e50; margin-bottom: 15px;">Vetted Professionals</h3>
           <p style="color: #7f8c8d; line-height: 1.6;">All caretakers undergo thorough background checks and skill assessments</p>
         </div>
         
-        <div style="text-align: center;">
+        <div style="text-align: center; flex: 1; min-width: 250px;">
           <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #e74c3c, #c0392b); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: white; font-size: 2rem;">⚡</div>
           <h3 style="color: #2c3e50; margin-bottom: 15px;">Quick Matching</h3>
           <p style="color: #7f8c8d; line-height: 1.6;">Find the perfect caretaker based on your specific needs and preferences</p>
         </div>
         
-        <div style="text-align: center;">
+        <div style="text-align: center; flex: 1; min-width: 250px;">
           <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #27ae60, #229954); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; color: white; font-size: 2rem;">🛡️</div>
           <h3 style="color: #2c3e50; margin-bottom: 15px;">Safe & Secure</h3>
           <p style="color: #7f8c8d; line-height: 1.6;">Your safety and privacy are our top priorities with 24/7 support</p>

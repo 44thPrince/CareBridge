@@ -3,7 +3,7 @@ from psycopg2.extras import DictCursor
 from contextlib import contextmanager
 
 DB_NAME = "carebridgedb"   # changed from apt_manager
-DB_USER = "postgres"   # update if you use a different user
+DB_USER = "nazeershaikh"   # update if you use a different user
 DB_PASSWORD = "RobinHood2025!"  # replace with your real password
 DB_HOST = "localhost"
 DB_PORT = "5432"
