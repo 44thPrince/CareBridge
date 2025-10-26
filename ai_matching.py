@@ -1,6 +1,9 @@
 import os
 import json
+<<<<<<< HEAD
 import re
+=======
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
 from typing import List, Dict, Any, Optional
 from dotenv import load_dotenv
 
@@ -22,15 +25,34 @@ class AIMatchingService:
     
     def __init__(self):
         """Initialize the AI matching service"""
+<<<<<<< HEAD
+=======
+        self._initialize_api()
+    
+    def _initialize_api(self):
+        """Initialize or reinitialize the API connection"""
+        # Reload environment variables
+        load_dotenv()
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
         self.api_key = os.getenv('GEMINI_API_KEY', '')
         self.model_name = os.getenv('GEMINI_MODEL', 'gemini-2.0-flash')
         
         if self.api_key and GEMINI_AVAILABLE:
             try:
+<<<<<<< HEAD
                 genai.configure(api_key=self.api_key)
                 self.model = genai.GenerativeModel(self.model_name)
                 self.ai_enabled = True
                 print("✅ AI matching service initialized with Gemini API")
+=======
+                # Clear any existing configuration to avoid caching issues
+                genai.configure(api_key=None)
+                # Configure with fresh key
+                genai.configure(api_key=self.api_key)
+                self.model = genai.GenerativeModel(self.model_name)
+                self.ai_enabled = True
+                print(f"✅ AI matching service initialized with Gemini API (Key: {self.api_key[:20]}...)")
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
             except Exception as e:
                 print(f"⚠️ Error initializing Gemini API: {e}")
                 self.model = None
@@ -43,6 +65,7 @@ class AIMatchingService:
             else:
                 print("⚠️ Gemini API not available. AI matching will use fallback logic.")
     
+<<<<<<< HEAD
     def _clean_json_response(self, response_text: str) -> str:
         """Clean and fix common JSON formatting issues from AI responses"""
         # Strip whitespace
@@ -66,10 +89,18 @@ class AIMatchingService:
         
         return text
     
+=======
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
     def analyze_client_needs(self, client_data: Dict[str, Any]) -> Dict[str, Any]:
         """
         Analyze client medical conditions and special instructions to determine care needs
         """
+<<<<<<< HEAD
+=======
+        # Reinitialize API to ensure we have the latest key
+        self._initialize_api()
+        
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
         if not self.ai_enabled:
             return self._fallback_client_analysis(client_data)
         
@@ -83,18 +114,28 @@ class AIMatchingService:
             Medical Conditions: {medical_conditions}
             Special Instructions: {special_instructions}
             
+<<<<<<< HEAD
             Please provide a JSON response with the following structure (NO trailing commas):
             {{
                 "primary_needs": ["list of main care requirements based on medical conditions"],
                 "adl_requirements": ["specific ADL services needed"],
+=======
+            Please provide a JSON response with the following structure:
+            {{
+                "primary_needs": ["list of main care requirements based on medical conditions"],
+                "adl_requirements": ["specific ADL services needed (e.g., personal_care, medication_management, mobility_assistance)"],
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
                 "specializations": ["required caretaker specializations"],
                 "urgency_level": "low/medium/high",
                 "complexity": "simple/moderate/complex",
                 "key_considerations": ["important factors for matching"]
             }}
             
+<<<<<<< HEAD
             IMPORTANT: Do not include trailing commas in arrays. Ensure valid JSON format.
             
+=======
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
             Focus on:
             - ADL services that would be most helpful
             - Specialized care needs
@@ -104,17 +145,36 @@ class AIMatchingService:
             """
             
             response = self.model.generate_content(prompt)
+<<<<<<< HEAD
             response_text = self._clean_json_response(response.text)
+=======
+            # Clean the response text and try to parse JSON
+            response_text = response.text.strip()
+            # Remove any markdown code blocks if present
+            if response_text.startswith('```json'):
+                response_text = response_text[7:]
+            if response_text.endswith('```'):
+                response_text = response_text[:-3]
+            response_text = response_text.strip()
+            
+            # Fix common JSON issues
+            import re
+            # Remove trailing commas before closing brackets/braces
+            response_text = re.sub(r',(\s*[}\]])', r'\1', response_text)
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
             
             result = json.loads(response_text)
             
             print(f"🧠 AI analyzed client needs: {result.get('primary_needs', [])}")
             return result
             
+<<<<<<< HEAD
         except json.JSONDecodeError as e:
             print(f"❌ JSON parsing error in AI client analysis: {e}")
             print(f"📄 Response text was: {response_text[:500]}")
             return self._fallback_client_analysis(client_data)
+=======
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
         except Exception as e:
             print(f"❌ Error in AI client analysis: {e}")
             return self._fallback_client_analysis(client_data)
@@ -123,6 +183,12 @@ class AIMatchingService:
         """
         Match client needs with available caretakers using AI
         """
+<<<<<<< HEAD
+=======
+        # Reinitialize API to ensure we have the latest key
+        self._initialize_api()
+        
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
         if not self.ai_enabled:
             return self._fallback_caretaker_matching(client_needs, caretakers)
         
@@ -156,7 +222,11 @@ class AIMatchingService:
             AVAILABLE CARETAKERS:
             {json.dumps(caretaker_summaries, indent=2)}
             
+<<<<<<< HEAD
             For each caretaker, provide a JSON response with this structure (NO trailing commas):
+=======
+            For each caretaker, provide a JSON response with this structure:
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
             {{
                 "matches": [
                     {{
@@ -174,11 +244,14 @@ class AIMatchingService:
                 ]
             }}
             
+<<<<<<< HEAD
             IMPORTANT: 
             - Do not include trailing commas in arrays or objects
             - Ensure valid JSON format
             - Include all caretakers with a confidence score above 30
             
+=======
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
             Consider:
             - ADL service alignment
             - Experience with similar conditions
@@ -189,7 +262,23 @@ class AIMatchingService:
             """
             
             response = self.model.generate_content(prompt)
+<<<<<<< HEAD
             response_text = self._clean_json_response(response.text)
+=======
+            # Clean the response text and try to parse JSON
+            response_text = response.text.strip()
+            # Remove any markdown code blocks if present
+            if response_text.startswith('```json'):
+                response_text = response_text[7:]
+            if response_text.endswith('```'):
+                response_text = response_text[:-3]
+            response_text = response_text.strip()
+            
+            # Fix common JSON issues
+            import re
+            # Remove trailing commas before closing brackets/braces
+            response_text = re.sub(r',(\s*[}\]])', r'\1', response_text)
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
             
             result = json.loads(response_text)
             
@@ -206,10 +295,13 @@ class AIMatchingService:
             print(f"🎯 AI generated {len(matches)} matches")
             return matches
             
+<<<<<<< HEAD
         except json.JSONDecodeError as e:
             print(f"❌ JSON parsing error in AI caretaker matching: {e}")
             print(f"📄 Response text was: {response_text[:500]}")
             return self._fallback_caretaker_matching(client_needs, caretakers)
+=======
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
         except Exception as e:
             print(f"❌ Error in AI caretaker matching: {e}")
             return self._fallback_caretaker_matching(client_needs, caretakers)
@@ -236,7 +328,11 @@ class AIMatchingService:
             adl_requirements.append('Medication Management')
             specializations.append('diabetes_care')
         
+<<<<<<< HEAD
         if any(condition in medical_conditions for condition in ['mobility', 'wheelchair', 'walking', 'balance', 'arthritis']):
+=======
+        if any(condition in medical_conditions for condition in ['mobility', 'wheelchair', 'walking', 'balance']):
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
             needs.append('mobility_assistance')
             adl_requirements.append('Mobility & Transfers')
             specializations.append('mobility_specialist')
@@ -321,5 +417,12 @@ class AIMatchingService:
         print(f"🔄 Fallback matching generated {len(matches)} matches")
         return matches
 
+<<<<<<< HEAD
 # Create a global instance
 ai_service = AIMatchingService()
+=======
+# Create a function to get a fresh AI service instance
+def get_ai_service():
+    """Get a fresh AI service instance to avoid caching issues"""
+    return AIMatchingService()
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b

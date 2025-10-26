@@ -242,7 +242,11 @@ def ai_matches():
 Before running CareBridge, make sure you have the following installed on your system:
 
 - **Python 3.8+** - [Download Python](https://www.python.org/downloads/)
+<<<<<<< HEAD
 - **PostgreSQL** - [Download PostgreSQL](https://www.postgresql.org/download/)
+=======
+- **PostgreSQL 14.9** - [Download PostgreSQL](https://www.postgresql.org/download/)
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
 - **Git** - [Download Git](https://git-scm.com/downloads)
 
 ### Step 1: Clone the Repository
@@ -254,6 +258,7 @@ cd CareBridge
 
 ### Step 2: Set Up Virtual Environment
 
+<<<<<<< HEAD
 ```bash
 # Create virtual environment
 python -m venv venv
@@ -269,6 +274,56 @@ source venv/bin/activate
 
 ```bash
 pip install flask psycopg2-binary bcrypt python-dotenv
+=======
+A virtual environment isolates your project's dependencies from other Python projects on your system. This is a best practice and helps avoid dependency conflicts.
+
+```bash
+# Create a virtual environment named 'venv'
+python -m venv venv
+```
+
+**Activate the virtual environment:**
+
+On **macOS/Linux**:
+```bash
+source venv/bin/activate
+```
+
+On **Windows (Command Prompt)**:
+```bash
+venv\Scripts\activate.bat
+```
+
+On **Windows (PowerShell)**:
+```bash
+venv\Scripts\Activate.ps1
+```
+
+You'll know your virtual environment is activated when you see `(venv)` at the beginning of your command prompt, like this:
+```bash
+(venv) user@computer CareBridge %
+```
+
+### Step 3: Install Dependencies
+
+With your virtual environment **activated**, install all required packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+This will install:
+- Flask (web framework)
+- psycopg2-binary (PostgreSQL adapter)
+- bcrypt (password hashing)
+- google-generativeai (Google Gemini API)
+- python-dotenv (environment variable management)
+- And all other dependencies listed in requirements.txt
+
+**Note**: If you ever need to deactivate the virtual environment, simply run:
+```bash
+deactivate
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
 ```
 
 ### Step 4: Set Up Database
@@ -347,6 +402,33 @@ venv\Scripts\activate     # Windows
 pip install -r requirements.txt
 ```
 
+<<<<<<< HEAD
+=======
+**Virtual Environment Issues:**
+```bash
+# If 'venv' directory doesn't exist, create it
+python -m venv venv
+
+# If activation doesn't work, check your shell
+# For PowerShell on Windows, you may need to enable script execution:
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+
+# To verify virtual environment is active, check:
+which python  # macOS/Linux (should show venv/bin/python)
+where python  # Windows (should show venv\Scripts\python.exe)
+```
+
+**Import Errors After Installing:**
+```bash
+# Sometimes Python doesn't recognize newly installed packages
+# Reinstall using the --force-reinstall flag:
+pip install --force-reinstall -r requirements.txt
+
+# Or upgrade pip first:
+pip install --upgrade pip
+```
+
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
 **Database Permission Issues:**
 ```bash
 # Create user with proper permissions

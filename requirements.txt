@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Use compatible versions for Flask and Werkzeug
 Flask==3.1.2
 Werkzeug==3.1.2  # CHANGED to >= 3.1.0 to meet Flask 3.1.2 dependency
@@ -8,3 +9,22 @@ bcrypt==5.0.0
 google-generativeai==0.8.5
 python-dotenv==1.1.1
 requests==2.32.5
+=======
+# Core Flask Application
+Flask==3.1.2
+
+# Database
+psycopg2-binary==2.9.11
+
+# Authentication & Security
+bcrypt==5.0.0
+
+# AI/ML Integration
+google-generativeai==0.8.5
+
+# Environment Configuration
+python-dotenv==1.1.1
+
+# Additional utilities
+requests==2.32.5
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b

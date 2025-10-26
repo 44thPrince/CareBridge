@@ -3,8 +3,13 @@ from psycopg2.extras import DictCursor
 from contextlib import contextmanager
 
 DB_NAME = "carebridgedb"   # changed from apt_manager
+<<<<<<< HEAD
 DB_USER = "postgres"   # update if you use a different user
 DB_PASSWORD = "RobinHood2025!"  # replace with your real password
+=======
+DB_USER = "nazeershaikh"   # update if you use a different user
+DB_PASSWORD = ""           # replace with your real password
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
 DB_HOST = "localhost"
 DB_PORT = "5432"
 
@@ -70,6 +75,16 @@ class DatabasePersistence:
                 cur.execute("SELECT * FROM caretakers ORDER BY created_at DESC")
                 return cur.fetchall()
 
+<<<<<<< HEAD
+=======
+    def get_all_clients(self):
+        """Get all clients with their details."""
+        with _database_connect() as conn:
+            with conn.cursor(cursor_factory=DictCursor) as cur:
+                cur.execute("SELECT * FROM clients ORDER BY created_at DESC")
+                return cur.fetchall()
+
+>>>>>>> d64a6b179ece6be9698eefc95792fe1c2432388b
     def get_caretaker_by_id(self, caretaker_id):
         """Get a specific caretaker by ID."""
         with _database_connect() as conn:
