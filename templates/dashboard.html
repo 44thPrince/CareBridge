@@ -31,6 +31,9 @@
             <p style="margin: 5px 0; color: rgba(255,255,255,0.9); font-size: 0.85rem;">
               {{ match.match_explanation[:80] }}{% if match.match_explanation|length > 80 %}...{% endif %}
             </p>
+            <button onclick="this.textContent = 'Requested'; this.disabled = true; this.style.background = 'rgba(46, 204, 113, 0.3)';" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; margin-top: 10px; cursor: pointer; transition: all 0.3s;">
+              Request
+            </button>
           </div>
         {% endfor %}
       </div>
@@ -61,6 +64,9 @@
             <p style="margin: 5px 0; color: rgba(255,255,255,0.9); font-size: 0.85rem;">
               {{ caretaker.bio[:80] }}{% if caretaker.bio|length > 80 %}...{% endif %}
             </p>
+            <button onclick="this.textContent = 'Requested'; this.disabled = true; this.style.background = 'rgba(46, 204, 113, 0.3)';" style="background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.3); padding: 6px 16px; border-radius: 20px; font-size: 0.85rem; margin-top: 10px; cursor: pointer; transition: all 0.3s;">
+              Request
+            </button>
           </div>
         {% endfor %}
       </div>
@@ -79,3 +85,4 @@
 
 
 {% endblock %}
+

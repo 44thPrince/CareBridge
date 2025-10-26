@@ -48,6 +48,10 @@
           </p>
         </div>
         {% endif %}
+        
+        <button onclick="this.textContent = 'Requested'; this.disabled = true; this.style.background = '#27ae60';" style="background: #3498db; color: white; border: none; padding: 10px 20px; border-radius: 20px; font-size: 0.9rem; margin-top: 15px; cursor: pointer; transition: all 0.3s; width: 100%;">
+          Request
+        </button>
       </div>
     {% endfor %}
   </div>

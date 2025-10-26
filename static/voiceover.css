@@ -1,5 +1,7 @@
 /* Voiceover Control Panel Styles */
 
+
+
 .voiceover-panel {
     position: fixed;
     bottom: 20px;
@@ -262,7 +264,7 @@ input[type="range"]::-moz-range-thumb:hover {
 /* Voice-readable elements styling */
 .voice-readable {
     position: relative;
-    cursor: help;
+    cursor: pointer;
 }
 
 .voice-readable:focus {
