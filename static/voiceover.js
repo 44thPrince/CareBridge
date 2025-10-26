@@ -57,7 +57,7 @@ class VoiceoverSystem {
         this.createControlPanel();
         this.attachEventListeners();
         this.makeContentReadable();
-        
+        this.togglePanel(); // Start minimized
         // Auto-read page content if enabled
         if (this.autoReadEnabled) {
             setTimeout(() => this.readPageContent(), 1000);
@@ -520,11 +520,20 @@ class VoiceoverSystem {
         }
     }
     
-    togglePanel() {
+    togglePanel(forceMinimize = false) { // MODIFIED: Added optional parameter
         const panel = document.getElementById('voiceover-control-panel');
         if (panel) {
-            panel.classList.toggle('minimized');
+            
+            // --- MODIFIED LOGIC: Check if we are forcing minimization or toggling normally ---
+            if (forceMinimize || !panel.classList.contains('minimized')) {
+                panel.classList.add('minimized');
+            } else {
+                panel.classList.remove('minimized');
+            }
+            // --------------------------------------------------------------------------------
+            
             const minimizeBtn = document.getElementById('voiceover-minimize');
+            // Check the state of the panel AFTER the class is applied/removed
             minimizeBtn.textContent = panel.classList.contains('minimized') ? '+' : '−';
             minimizeBtn.setAttribute('aria-label', 
                 panel.classList.contains('minimized') ? 'Maximize voice controls' : 'Minimize voice controls'
